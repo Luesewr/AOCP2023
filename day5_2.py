@@ -20,13 +20,13 @@ for map_n in maps:
             if s_r < last_highest:
                 length = max(length - (last_highest - s_r), 0)
                 s_r = last_highest
-            if last_highest < s_r and length > 0 and remaining_length > 0:
+            if last_highest < s_r:
                 value_length = min(s_r - last_highest, remaining_length)
                 if value_length > 0:
                     next_values.append((last_highest, value_length))
                     last_highest = s_r
                     remaining_length -= value_length
-            if last_highest <= s_r < end_of_value and length > 0 and remaining_length > 0:
+            if last_highest <= s_r < end_of_value:
                 value_length = min(length, remaining_length)
                 if value_length > 0:
                     next_values.append((last_highest + d_r - original_s_r, value_length))
