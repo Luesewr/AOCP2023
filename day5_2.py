@@ -1,4 +1,4 @@
-f = open("inputs/test_day5.txt")
+f = open("inputs/day5.txt")
 e = f.read().split("\n\n")
 seed_pairs = [int(i) for i in e[0].split(": ")[1].split(" ")]
 it = iter(seed_pairs)
@@ -10,35 +10,31 @@ locations = []
 current_values = seeds
 for map_n in maps:
     next_values = []
-    for current_value in current_values:
-        last_highest = current_value[0]
-        end_of_value = current_value[0] + current_value[1]
-        remaining_length = current_value[1]
+    for position, l in current_values:
+        last_highest = position
+        end_of_value = position + l
+        remaining_length = l
         for entry in map_n:
             d_r, s_r, length = entry
+            original_s_r = s_r
             if s_r < last_highest:
-                length -= last_highest - s_r
+                length = max(length - (last_highest - s_r), 0)
                 s_r = last_highest
-            if last_highest < s_r:
+            if last_highest < s_r and length > 0 and remaining_length > 0:
                 value_length = min(s_r - last_highest, remaining_length)
                 if value_length > 0:
                     next_values.append((last_highest, value_length))
                     last_highest = s_r
                     remaining_length -= value_length
-            if last_highest <= s_r < end_of_value:
+            if last_highest <= s_r < end_of_value and length > 0 and remaining_length > 0:
                 value_length = min(length, remaining_length)
                 if value_length > 0:
-                    next_values.append((last_highest + d_r - s_r, value_length))
+                    next_values.append((last_highest + d_r - original_s_r, value_length))
                     last_highest = s_r + value_length
                     remaining_length -= value_length
-            print(last_highest, remaining_length)
-            print("values: ", next_values)
 
         if remaining_length > 0:
             next_values.append((last_highest, remaining_length))
     current_values = next_values
-    break
 
-
-
-print(current_values)
+print(sorted(current_values, key=lambda x: x[0])[0][0])
