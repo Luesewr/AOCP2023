@@ -13,30 +13,27 @@ def hand_to_value(hand):
         else:
             counts[c] = 1
     counts = sorted(counts.items(), key=lambda x: x[1], reverse=True)
-    counts_amount = {a + 1: [] for a in range(5)}
+    counts_amount = [[] for _ in range(5)]
     joker_count = 0
     for val, count in counts:
         if val == 'J':
             joker_count += count
-        counts_amount[count].append(val)
-    if joker_count > 0:
-        for a in range(5, 0, -1):
-            non_joker_counts = list(filter(lambda x: x != 'J', counts_amount[a]))
-            if len(non_joker_counts) > 0:
-                replacement_value = sorted(non_joker_counts, key=lambda x: value_lookup[x])[-1]
-                counts_amount[a].remove(replacement_value)
-                counts_amount[a + joker_count].append(replacement_value)
-                counts_amount[joker_count].remove('J')
-                break
-    count_amounts = [len(counts_amount[a]) for a in range(5, 0, -1)]
+        counts_amount[5 - count].append(val)
+    if 0 < joker_count < 5:
+        a = list(map(lambda x: len(list(filter(lambda y: y != 'J', x))) > 0, counts_amount)).index(True)
+        amounts = counts_amount[a]
+        non_joker_counts = filter(lambda x: x != 'J', amounts)
+        replacement_value = max(non_joker_counts, key=lambda x: value_lookup[x])
+        amounts.remove(replacement_value)
+        counts_amount[a - joker_count].append(replacement_value)
+        counts_amount[5 - joker_count].remove('J')
+    count_amounts = [len(_) for _ in counts_amount]
 
     header = '0x{}{}{}{}{}'.format(*count_amounts)
-    number = '{}{}'.format(header, ''.join([value_lookup[a] for a in hand[0]]))
+    number = '{}{}'.format(header, ''.join([value_lookup[_] for _ in hand[0]]))
     return int(number, 16)
 
 
 e.sort(key=hand_to_value)
-t = 0
-for index, value in enumerate(e):
-    t += value[1] * (index + 1)
+t = sum(map(lambda x: (x + 1) * e[x][1], range(len(e))))
 print(t)
