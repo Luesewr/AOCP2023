@@ -13,7 +13,7 @@ for line in e.split("\n"):
 unique_nodes = {key[0] for key in node_map.keys()}
 
 starting_nodes = list(filter(lambda _: _[-1] == 'A', unique_nodes))
-ending_nodes = list(filter(lambda _: _[-1] == 'Z', unique_nodes))
+ending_nodes = set(filter(lambda _: _[-1] == 'Z', unique_nodes))
 
 repeat_endings = []
 
@@ -21,19 +21,13 @@ for node in starting_nodes:
 
     current_instruction_index = 0
     current_node = node
-    visited_nodes = []
-    ending_indices = []
 
-    while current_node not in visited_nodes[(current_instruction_index % len(instructions))::(len(instructions))]:
-        visited_nodes.append(current_node)
+    while current_node not in ending_nodes:
         current_instruction = instructions[current_instruction_index % len(instructions)]
         current_node = node_map[(current_node, current_instruction)]
-
-        if current_node in ending_nodes:
-            ending_indices.append(current_instruction_index)
-
         current_instruction_index += 1
 
-    repeat_endings.append(ending_indices[0] + 1)
+        if current_node in ending_nodes:
+            repeat_endings.append(current_instruction_index)
 
 print(lcm(*repeat_endings))
