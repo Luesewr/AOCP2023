@@ -29,12 +29,11 @@ for node in starting_nodes:
         current_instruction = instructions[current_instruction_index % len(instructions)]
         current_node = node_map[(current_node, current_instruction)]
 
-        if current_node[-1] == 'Z':
+        if current_node in ending_nodes:
             ending_indices.append(current_instruction_index)
 
         current_instruction_index += 1
 
-    loop_index = visited_nodes.index(current_node)
-    repeat_endings.append(((loop_index, current_instruction_index - loop_index), list(map(lambda _: _ - loop_index + 1, ending_indices))))
+    repeat_endings.append(ending_indices[0] + 1)
 
-print(lcm(*list(map(lambda _: _[1][0] + _[0][0], repeat_endings))))
+print(lcm(*repeat_endings))
