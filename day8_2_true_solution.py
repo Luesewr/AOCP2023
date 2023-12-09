@@ -1,29 +1,40 @@
 from itertools import product
-from math import lcm, gcd
-
-def mod_inverse(a, m):
-    x = gcd(a, m)
-    return (x % m + m) % m
-
-def chinese_remainder_theorem(n, a):
-    # n = list of moduli
-    # a = list of remainders
-
-    # Calculate N
-    N = 1
-    for i in n:
-        N *= i
-
-    result = 0
-    for i in range(len(n)):
-        Ni = N // n[i]
-        inv = mod_inverse(Ni, n[i])
-        result += a[i] * Ni * inv
-
-    return ((result - 1) % lcm(*n)) + 1
+from math import gcd, ceil, sqrt
+from functools import reduce
 
 
-f = open("inputs/modified_day8.txt")
+def chinese_remainder(m, a):
+    sum = 0
+    prod = reduce(lambda acc, b: acc * b, m)
+    for n_i, a_i in zip(m, a):
+        p = prod // n_i
+        sum += a_i * mul_inv(p, n_i) * p
+    return sum % prod
+
+
+def mul_inv(a, b):
+    b0 = b
+    x0, x1 = 0, 1
+    if b == 1: return 1
+    while a > 1:
+        q = a // b
+        a, b = b, a % b
+        x0, x1 = x1 - q * x0, x0
+    if x1 < 0: x1 += b0
+    return x1
+
+
+def divisors(n):
+    lis = []
+    s = ceil(sqrt(n))
+    for g in range(s, 0, -1):
+        if n % g == 0:
+            lis.append(g)
+            lis.append(int(n / g))
+    return set(lis)
+
+
+f = open("inputs/test_day8.txt")
 instructions, e = f.read().split("\n\n")
 node_map = {}
 
@@ -61,14 +72,67 @@ for node in starting_nodes:
     loop_length = len(visited_nodes) - offset
     repeat_endings.append((loop_length, list(map(lambda _: _, endings))))
 
+loop_lengths = [loop_length for loop_length, data in repeat_endings]
+
+print(repeat_endings)
+
+original_loop_lengths = loop_lengths
+
+is_coprime = gcd(*loop_lengths) == 0
+
+while not is_coprime:
+    is_coprime = True
+    denominator_count = {}
+    denominators = []
+
+    for index, loop_length in enumerate(loop_lengths):
+        loop_divisors = list(divisors(loop_length))
+        denominators.append(loop_divisors)
+
+        for x in loop_divisors:
+            if x in denominator_count:
+                denominator_count[x] += 1
+            else:
+                denominator_count[x] = 1
+
+    common_factors = list(filter(lambda item: item[1] > 1 and item[0] != 1, denominator_count.items()))
+    if len(common_factors) > 0:
+        is_coprime = False
+
+        biggest_common_factor = common_factors[-1][0]
+
+        lengths_and_denominators = list(zip(zip(range(len(loop_lengths)), loop_lengths), denominators))
+        # print(lengths_and_denominators)
+        least_denoms_with_factor = min(filter(lambda l_d: biggest_common_factor in l_d[1], lengths_and_denominators), key=lambda l_d: len(l_d[1]))
+        # print(least_denoms_with_factor)
+        (index, loop_length), denoms = least_denoms_with_factor
+        loop_lengths[index] //= biggest_common_factor
+
+print(loop_lengths)
+
 endings = [endings for loop_length, endings in repeat_endings]
 combinations = list(product(*endings))
-
-min_intersection = 0
-
+original_loop_product = reduce(lambda acc, b: acc * b, original_loop_lengths)
+min_intersection = 100000000000000
+#
 for combination in combinations:
-    loop_lengths = [loop_length for loop_length, data in repeat_endings]
-    intersection = chinese_remainder_theorem(loop_lengths, list(combination))
-    min_intersection = max(min_intersection, intersection)
-
+    offset_combination = combination
+    combination_offset = 0
+    while (intersection := chinese_remainder(loop_lengths, offset_combination)) == 0:
+        offset_combination = [i + 1 for i in offset_combination]
+        combination_offset -= 1
+    loop_product = reduce(lambda acc, b: acc * b, loop_lengths)
+    all_match = False
+    while not all_match and intersection <= original_loop_product:
+        all_match = True
+        for loop_length, offset in zip(loop_lengths, list(offset_combination)):
+            if (intersection - offset) % loop_length != 0:
+                all_match = False
+                intersection += loop_product
+                break
+    #
+    if all_match:
+        print(intersection)
+        min_intersection = min(min_intersection, intersection + combination_offset)
+#
 print(min_intersection)
