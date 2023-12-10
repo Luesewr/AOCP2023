@@ -24,32 +24,29 @@ def check_bounds(x, y, width, height):
 
 
 def apply_direction(x, y, direction):
-    if direction == 0:
-        return x, y - 1
-    elif direction == 1:
-        return x + 1, y
-    elif direction == 2:
-        return x, y + 1
-    elif direction == 3:
-        return x - 1, y
-    else:
-        raise Exception("Invalid direction")
+    applied_directions = [(x, y - 1), (x + 1, y), (x, y + 1), (x - 1, y)]
+    return applied_directions[direction]
 
 
-current_search = []
-start_direction = -1
+current_search = None
+start_directions = []
 for i in range(4):
     new_location = apply_direction(start_x, start_y, i)
     new_x, new_y = new_location
     if not check_bounds(new_x, new_y, width, height) or ((i + 2) % 4) not in accepted_directions[lines[new_y][new_x]]:
         continue
-    current_search.append((new_location, (start_x, start_y), 1))
-    start_direction = i
-    break
+    current_search = (new_location, (start_x, start_y), 1)
+    start_directions.append(i)
+
+piece = [['#', 'L', '|', 'J'], ['L', '#', 'F', '-'], ['|', 'F', '#', '7'], ['J', '-', '7', '#']]
+
+line = list(lines[start_y])
+line[start_x] = piece[start_directions[0]][start_directions[1]]
+lines[start_y] = "".join(line)
 
 loop_positions = set()
 while len(current_search) > 0:
-    current_element = current_search.pop(0)
+    current_element = current_search
     current_position, current_origin, distance = current_element
     current_x, current_y = current_position
     origin_x, origin_y = current_origin
@@ -58,19 +55,6 @@ while len(current_search) > 0:
     loop_positions.add(current_position)
 
     if current_x == start_x and current_y == start_y:
-        direction = -1
-        if current_y == origin_y - 1:
-            direction = 2
-        elif current_x == origin_x + 1:
-            direction = 3
-        elif current_y == origin_y + 1:
-            direction = 0
-        elif current_x == origin_x - 1:
-            direction = 1
-        piece = [['#', 'L', '|', 'J'], ['L', '#', 'F', '-'], ['|', 'F', '#', '7'], ['J', '-', '7', '#']]
-        line = list(lines[start_y])
-        line[start_x] = piece[direction][start_direction]
-        lines[start_y] = "".join(line)
         break
 
     for i in range(4):
@@ -78,7 +62,7 @@ while len(current_search) > 0:
         new_x, new_y = new_location
         if (not check_bounds(new_x, new_y, width, height)) or (new_location == current_origin) or (i not in current_accepted_directions) or (((i + 2) % 4) not in accepted_directions[lines[new_y][new_x]]):
             continue
-        current_search.append((new_location, current_position, distance + 1))
+        current_search = (new_location, current_position, distance + 1)
         break
 
 t = 0
