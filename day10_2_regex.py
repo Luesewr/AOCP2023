@@ -1,3 +1,5 @@
+import regex as re
+
 f = open("inputs/day10.txt")
 lines = f.read().split("\n")
 start_y = list(map(lambda line: "S" in line, lines)).index(True)
@@ -34,23 +36,6 @@ def apply_direction(x, y, direction):
         raise Exception("Invalid direction")
 
 
-def flood_fill(position, exclude, dest):
-    if position in dest:
-        return True
-    queue = [position]
-    while len(queue) > 0:
-        current_element = queue.pop(0)
-        current_x, current_y = current_element
-        if current_element in dest or current_element in exclude:
-            continue
-        if not check_bounds(current_x, current_y, width, height):
-            return False
-        dest.add(current_element)
-        for direction in range(4):
-            queue.append(apply_direction(current_x, current_y, direction))
-    return True
-
-
 current_search = []
 start_direction = -1
 for i in range(4):
@@ -62,7 +47,6 @@ for i in range(4):
     start_direction = i
     break
 
-loop_visits = []
 loop_positions = set()
 while len(current_search) > 0:
     current_element = current_search.pop(0)
@@ -71,20 +55,22 @@ while len(current_search) > 0:
     origin_x, origin_y = current_origin
     current_accepted_directions = accepted_directions[lines[current_y][current_x]]
 
-    direction = -1
-    if current_y == origin_y - 1:
-        direction = 0
-    elif current_x == origin_x + 1:
-        direction = 1
-    elif current_y == origin_y + 1:
-        direction = 2
-    elif current_x == origin_x - 1:
-        direction = 3
-
     loop_positions.add(current_position)
 
     if current_x == start_x and current_y == start_y:
-        loop_visits.append((*current_position, [start_direction, direction]))
+        direction = -1
+        if current_y == origin_y - 1:
+            direction = 2
+        elif current_x == origin_x + 1:
+            direction = 3
+        elif current_y == origin_y + 1:
+            direction = 0
+        elif current_x == origin_x - 1:
+            direction = 1
+        piece = [['#', 'L', '|', 'J'], ['L', '#', 'F', '-'], ['|', 'F', '#', '7'], ['J', '-', '7', '#']]
+        line = list(lines[start_y])
+        line[start_x] = piece[direction][start_direction]
+        lines[start_y] = "".join(line)
         break
 
     for i in range(4):
@@ -93,22 +79,29 @@ while len(current_search) > 0:
         if (not check_bounds(new_x, new_y, width, height)) or (new_location == current_origin) or (i not in current_accepted_directions) or (((i + 2) % 4) not in accepted_directions[lines[new_y][new_x]]):
             continue
         current_search.append((new_location, current_position, distance + 1))
-        loop_visits.append((*current_position, [direction, i]))
         break
 
-left_area = set()
-right_area = set()
-left_valid = True
-right_valid = True
+t = 0
 
-for x, y, directions in loop_visits:
-    for direction in directions:
-        if left_valid:
-            left_valid = flood_fill(apply_direction(x, y, (direction + 3) % 4), loop_positions, left_area)
-        if right_valid:
-            right_valid = flood_fill(apply_direction(x, y, (direction + 1) % 4), loop_positions, right_area)
+for y in range(height):
+    for x in range(width):
+        if (x, y) not in loop_positions:
+            line = list(lines[y])
+            line[x] = '.'
+            lines[y] = "".join(line)
 
-if left_valid:
-    print(len(left_area))
-if right_valid:
-    print(len(right_area))
+    line = lines[y]
+
+    line = re.sub(r'F(-)*7', '', line)
+    line = re.sub(r'F(-)*J', '|', line)
+    line = re.sub(r'L(-)*7', '|', line)
+    line = re.sub(r'L(-)*J', '', line)
+    line = re.sub(r'\|\|', '', line)
+    capturing = False
+    for c in line:
+        if c == '|':
+            capturing = not capturing
+        elif c == '.' and capturing:
+            t += 1
+
+print(t)

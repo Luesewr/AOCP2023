@@ -18,7 +18,6 @@ accepted_directions = {
 
 current_search = [((start_x, start_y), (start_x, start_y), 0)]
 
-found_furthest = False
 while len(current_search) > 0:
     current_element = current_search.pop(0)
     current_position, current_origin, distance = current_element
