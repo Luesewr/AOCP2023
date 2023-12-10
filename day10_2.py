@@ -16,20 +16,51 @@ accepted_directions = {
     'S': [0, 1, 2, 3],
 }
 
+
+def check_bounds(x, y, width, height):
+    return 0 <= x <= width - 1 and 0 <= y <= height - 1
+
+
+def apply_direction(x, y, direction):
+    if direction == 0:
+        return x, y - 1
+    elif direction == 1:
+        return x + 1, y
+    elif direction == 2:
+        return x, y + 1
+    elif direction == 3:
+        return x - 1, y
+    else:
+        raise Exception("Invalid direction")
+
+
+def flood_fill(position, exclude, dest):
+    if position in dest:
+        return True
+    queue = [position]
+    while len(queue) > 0:
+        current_element = queue.pop(0)
+        current_x, current_y = current_element
+        if current_element in dest or current_element in exclude:
+            continue
+        if not check_bounds(current_x, current_y, width, height):
+            return False
+        dest.add(current_element)
+        for direction in range(4):
+            queue.append(apply_direction(current_x, current_y, direction))
+    return True
+
+
 current_search = []
 start_direction = -1
-if start_y > 0 and 2 in accepted_directions[lines[start_y - 1][start_x]]:
-    current_search.append(((start_x, start_y - 1), (start_x, start_y), 1))
-    start_direction = 0
-elif start_x < width - 1 and 3 in accepted_directions[lines[start_y][start_x + 1]]:
-    current_search.append(((start_x + 1, start_y), (start_x, start_y), 1))
-    start_direction = 1
-elif start_y < height - 1 and 0 in accepted_directions[lines[start_y + 1][start_x]]:
-    current_search.append(((start_x, start_y + 1), (start_x, start_y), 1))
-    start_direction = 2
-elif start_x > 0 and 1 in accepted_directions[lines[start_y][start_x - 1]]:
-    current_search.append(((start_x - 1, start_y), (start_x, start_y), 1))
-    start_direction = 3
+for i in range(4):
+    new_location = apply_direction(start_x, start_y, i)
+    new_x, new_y = new_location
+    if not check_bounds(new_x, new_y, width, height) or ((i + 2) % 4) not in accepted_directions[lines[new_y][new_x]]:
+        continue
+    current_search.append((new_location, (start_x, start_y), 1))
+    start_direction = i
+    break
 
 found_furthest = False
 loop_visits = []
@@ -57,46 +88,14 @@ while len(current_search) > 0:
         loop_visits.append((*current_position, [start_direction, direction]))
         break
 
-    secondary_direction = -1
-
-    if current_y > 0 and current_y - 1 != origin_y and 0 in current_accepted_directions and 2 in accepted_directions[lines[current_y - 1][current_x]]:
-        current_search.append(((current_x, current_y - 1), (current_x, current_y), distance + 1))
-        secondary_direction = 0
-    if current_x < width - 1 and current_x + 1 != origin_x and 1 in current_accepted_directions and 3 in accepted_directions[lines[current_y][current_x + 1]]:
-        current_search.append(((current_x + 1, current_y), (current_x, current_y), distance + 1))
-        secondary_direction = 1
-    if current_y < height - 1 and current_y + 1 != origin_y and 2 in current_accepted_directions and 0 in accepted_directions[lines[current_y + 1][current_x]]:
-        current_search.append(((current_x, current_y + 1), (current_x, current_y), distance + 1))
-        secondary_direction = 2
-    if current_x > 0 and current_x - 1 != origin_x and 3 in current_accepted_directions and 1 in accepted_directions[lines[current_y][current_x - 1]]:
-        current_search.append(((current_x - 1, current_y), (current_x, current_y), distance + 1))
-        secondary_direction = 3
-
-    loop_visits.append((*current_position, [direction, secondary_direction]))
-
-
-def flood_fill(x, y, exclude, dest):
-    if (x, y) in dest:
-        return True
-    queue = [(x, y)]
-    while len(queue) > 0:
-        current_element = queue.pop(0)
-        current_x, current_y = current_element
-        if current_element in dest or current_element in exclude:
+    for i in range(4):
+        new_location = apply_direction(current_x, current_y, i)
+        new_x, new_y = new_location
+        if (not check_bounds(new_x, new_y, width, height)) or (new_location == current_origin) or (i not in current_accepted_directions) or (((i + 2) % 4) not in accepted_directions[lines[new_y][new_x]]):
             continue
-        if current_x <= 0 or current_y <= 0 or current_x >= width - 1 or current_y >= height - 1:
-            return False
-        dest.add(current_element)
-        if current_y > 0:
-            queue.append((current_x, current_y - 1))
-        if current_x < width - 1:
-            queue.append((current_x + 1, current_y))
-        if current_y < height - 1:
-            queue.append((current_x, current_y + 1))
-        if current_x > 0:
-            queue.append((current_x - 1, current_y))
-    return True
-
+        current_search.append((new_location, current_position, distance + 1))
+        loop_visits.append((*current_position, [direction, i]))
+        break
 
 left_area = set()
 right_area = set()
@@ -106,24 +105,9 @@ right_valid = True
 for x, y, directions in loop_visits:
     for direction in directions:
         if left_valid:
-            if direction == 0:
-                left_valid = flood_fill(x - 1, y, loop_positions, left_area)
-            elif direction == 1:
-                left_valid = flood_fill(x, y - 1, loop_positions, left_area)
-            elif direction == 2:
-                left_valid = flood_fill(x + 1, y, loop_positions, left_area)
-            elif direction == 3:
-                left_valid = flood_fill(x, y + 1, loop_positions, left_area)
-
+            left_valid = flood_fill(apply_direction(x, y, (direction + 3) % 4), loop_positions, left_area)
         if right_valid:
-            if direction == 0:
-                right_valid = flood_fill(x + 1, y, loop_positions, right_area)
-            elif direction == 1:
-                right_valid = flood_fill(x, y + 1, loop_positions, right_area)
-            elif direction == 2:
-                right_valid = flood_fill(x - 1, y, loop_positions, right_area)
-            elif direction == 3:
-                right_valid = flood_fill(x, y - 1, loop_positions, right_area)
+            right_valid = flood_fill(apply_direction(x, y, (direction + 1) % 4), loop_positions, right_area)
 
 if left_valid:
     print(len(left_area))
