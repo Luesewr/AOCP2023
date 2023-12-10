@@ -97,8 +97,8 @@ for y in range(height):
     line = re.sub(r'L(-)*7', '|', line)
     line = re.sub(r'L(-)*J', '', line)
     line = re.sub(r'\|\|', '', line)
-    matches = re.search(r'(?<=\|)(\.)+(?=\|)', line)
+    matches = re.search(r'\|\.+\|', line)
     if matches is not None:
-        t += sum([len(match) for match in matches.captures()])
+        t += sum([len(match) - 2 for match in matches.captures()])
 
 print(t)
