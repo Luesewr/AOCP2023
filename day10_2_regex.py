@@ -92,10 +92,8 @@ for y in range(height):
 
     line = lines[y]
 
-    line = re.sub(r'F(-)*7', '', line)
-    line = re.sub(r'F(-)*J', '|', line)
-    line = re.sub(r'L(-)*7', '|', line)
-    line = re.sub(r'L(-)*J', '', line)
+    line = re.sub(r'(F(-)*7)|(L(-)*J)', '', line)
+    line = re.sub(r'(F(-)*J)|(L(-)*7)', '|', line)
     line = re.sub(r'\|\|', '', line)
     matches = re.search(r'\|\.+\|', line)
     if matches is not None:
