@@ -1,4 +1,4 @@
-import regex as re
+import re
 
 f = open("inputs/day10.txt")
 lines = f.read().split("\n")
@@ -65,21 +65,6 @@ while len(current_search) > 0:
         current_search = (new_location, current_position, distance + 1)
         break
 
-t = 0
-
-for y in range(height):
-    for x in range(width):
-        if (x, y) not in loop_positions:
-            line = list(lines[y])
-            line[x] = '.'
-            lines[y] = "".join(line)
-
-    line = lines[y]
-
-    line = re.sub(r'(F(-)*7)|(L(-)*J)', '', line)
-    line = re.sub(r'(F(-)*J)|(L(-)*7)', '|', line)
-    matches = re.findall(r'\|\.*\|', line)
-    if matches is not None:
-        t += sum([len(match) - 2 for match in matches])
-
-print(t)
+lines = ["".join([character if (x, y) in loop_positions else "." for x, character in enumerate(line)]) for y, line in enumerate(lines)]
+matches = re.findall(r'(?:\||F-*J|L-*7)(?:\.|F-*7|L-*J)*(?:\||F-*J|L-*7)', "\n".join(lines))
+print(sum([match.count('.') for match in matches]))
