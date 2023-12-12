@@ -41,7 +41,7 @@ def bruteforce(spring, spring_index, record, record_index, known_spring_position
 
 results = []
 
-for i, (spring, record) in enumerate(lines):
+for spring, record in lines:
     spring_indices = {i for i in range(len(spring)) if spring[i] == '#'}
     results.append(bruteforce(spring, 0, record, 0, spring_indices, {}))
 
