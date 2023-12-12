@@ -8,36 +8,43 @@ records = [[int(i) for i in record.split(",")] for record in record_strings]
 lines = zip(springs, records)
 
 
-def try_options_from(springs_string, record, spring_index, record_index, spring_length, record_length):
-    if record_length > spring_length:
-        return 0
+def try_options_from(spring_blocks, record, spring_index, inner_spring_index, record_index, search_length):
+
     t = 0
-    while spring_index < len(spring_strings) and spring_strings[spring_index] == '.':
+    while spring_index < len(spring_strings) and spring_blocks[spring_index][0] == '.':
         spring_index += 1
-    ending_index = spring_index + record[record_index]
-    fits = springs_string[ending_index] != '#' if ending_index < len(record) else True
+        if search_length > 0:
+            return 0
+    if spring_index >= len(spring_blocks):
+        return 0
+
+    ending_index = min(inner_spring_index + record[record_index], len(spring_blocks[spring_index]) - 1)
+    remaining_search_length = inner_spring_index + record[record_index] - ending_index
+    fits = True
     if fits:
-        for i in range(spring_index, ending_index):
-            if springs_string[i] == '.':
-                fits = False
-                break
+        if remaining_search_length == 0 and spring_blocks[spring_index][0] == '#' and ending_index != len(spring_blocks[spring_index]) - 1:
+            fits = False
     if fits:
         print(spring_index, record_index)
         if record_index == len(record) - 1:
             print("returning 1")
             t = 1
-        else:
-            t += try_options_from(springs_string, record, spring_index + record[record_index] + 1, record_index + 1,
-                                  spring_length - record[record_index] - 1, record_length - record[record_index])
-    if springs_string[spring_index] != '#':
-        t += try_options_from(springs_string, record, spring_index + 1, record_index, spring_length - 1, record_length)
+        elif remaining_search_length > 0:
+            t + try_options_from(spring_blocks, record, spring_index + 1, 0, record_index, remaining_search_length)
+        elif remaining_search_length == 0:
+            t += try_options_from(spring_blocks, record, spring_index, ending_index + 1,
+                                  record_index + 1, 0)
+    if spring_blocks[spring_index] != '#':
+        t += try_options_from(spring_blocks, record, spring_index, inner_spring_index + 1, record_index, 0)
     return t
 
 
 for spring, record in lines:
-    blocks = re.findall(r'(?:\?|#)+', spring)
+    # print(spring)
+    blocks = re.findall(r'\.+|#+|\?+', spring)
+    print(blocks)
     total_options_length = sum([len(match) for match in blocks])
-    total_record_length = sum(record)
+    total_record_length = len(spring)
     while '#' in blocks[-1] and len(blocks[-1]) == record[-1]:
         blocks.pop()
         length = record.pop()
@@ -50,4 +57,4 @@ for spring, record in lines:
         total_record_length -= length
 
     print(blocks)
-    print(try_options_from('.'.join(blocks), record, 0, 0, total_options_length, total_record_length))
+    print(try_options_from(blocks, record, 0, 0, 0, 0))
