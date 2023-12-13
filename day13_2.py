@@ -14,6 +14,7 @@ for index in range(len(mirrors)):
             tolerance -= sum([0 if c1 == c2 else 1 for c1, c2 in zip(row[i - 1 - j], row[i + j])])
         if tolerance == 0:
             scores[index] = i * 100
+            break
 
     column = mirror_columns[index]
     for i in range(1, len(column)):
@@ -23,5 +24,6 @@ for index in range(len(mirrors)):
             tolerance -= sum([0 if c1 == c2 else 1 for c1, c2 in zip(column[i - 1 - j], column[i + j])])
         if tolerance == 0:
             scores[index] = i
+            break
 
 print(sum(scores))
