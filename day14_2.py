@@ -7,63 +7,49 @@ skipped = False
 
 known_states = {}
 cycle = 0
-while cycle < 2 * cycles_needed:
-    key = ''.join(rows)
-    if not skipped and cycle % 2 == 0 and key in known_states:
-        cycle_size = cycle // 2 - known_states[key]
-        skip_size = (cycles_needed - cycle // 2) // cycle_size
-        cycle += skip_size * cycle_size * 2
-        skipped = True
-    elif cycle % 2 == 0:
-        known_states[key] = cycle // 2
+while cycle < 4 * cycles_needed:
+    if not skipped and cycle % 4 == 0:
+        key = ''.join(rows)
+        if key in known_states:
+            cycle_size = cycle // 4 - known_states[key]
+            skip_size = (cycles_needed - cycle // 4) // cycle_size
+            cycle += skip_size * cycle_size * 4
+            skipped = True
+        else:
+            known_states[key] = cycle // 4
 
-    for column_index, column in enumerate(columns):
-        if cycle % 2 == 1:
-            column = column[::-1]
-        new_column = ['.' for i in range(len(column))]
+    lines = columns if cycle % 2 == 0 else rows
+
+    for index, line in enumerate(lines):
+        if 1 < cycle % 4:
+            line = line[::-1]
+        new_line = ['.' for i in range(len(line))]
         last_anchor = 0
         length = 0
-        for i, c in enumerate(column):
+        for i, c in enumerate(line):
             if c == '#':
-                new_column[i] = '#'
+                new_line[i] = '#'
                 for j in range(length):
-                    new_column[last_anchor + j] = 'O'
+                    new_line[last_anchor + j] = 'O'
                 last_anchor = i + 1
                 length = 0
             elif c == 'O':
                 length += 1
         for j in range(length):
-            new_column[last_anchor + j] = 'O'
-        if cycle % 2 == 0:
-            columns[column_index] = ''.join(new_column)
+            new_line[last_anchor + j] = 'O'
+        if 1 < cycle % 4:
+            lines[index] = ''.join(new_line[::-1])
         else:
-            columns[column_index] = ''.join(new_column[::-1])
-    rows = [''.join(row) for row in list(zip(*columns))]
+            lines[index] = ''.join(new_line)
 
-    for row_index, row in enumerate(rows):
-        if cycle % 2 == 1:
-            row = row[::-1]
-        new_row = ['.' for i in range(len(row))]
-        last_anchor = 0
-        length = 0
-        for i, c in enumerate(row):
-            if c == '#':
-                new_row[i] = '#'
-                for j in range(length):
-                    new_row[last_anchor + j] = 'O'
-                last_anchor = i + 1
-                length = 0
-            elif c == 'O':
-                length += 1
-        for j in range(length):
-            new_row[last_anchor + j] = 'O'
-        if cycle % 2 == 0:
-            rows[row_index] = ''.join(new_row)
-        else:
-            rows[row_index] = ''.join(new_row[::-1])
-    columns = [''.join(row) for row in list(zip(*rows))]
+    if cycle % 2 == 0:
+        columns = lines
+        rows = [''.join(row) for row in list(zip(*columns))]
+    else:
+        rows = lines
+        columns = [''.join(column) for column in list(zip(*rows))]
+
     cycle += 1
-
 
 score = 0
 
