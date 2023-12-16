@@ -12,17 +12,6 @@ direction_map = {
 }
 
 
-def apply_direction(x, y, d):
-    if d == 0:
-        return x + 1, y
-    if d == 1:
-        return x, y + 1
-    if d == 2:
-        return x - 1, y
-    if d == 3:
-        return x, y - 1
-
-
 def check_bounds(x, y, width, height):
     return 0 <= x < width and 0 <= y < height
 
