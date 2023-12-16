@@ -1,5 +1,3 @@
-from queue import Queue
-
 f = open("inputs/day16.txt")
 lines = f.read().split('\n')
 height = len(lines)
@@ -11,18 +9,12 @@ direction_map = {
     3: {'-': [(-1, 0, 3), (1, 0, 1)], '/': [(1, 0, 1)], '\\': [(-1, 0, 3)], '|': [(0, -1, 0)], '.': [(0, -1, 0)]},
 }
 
-
-def check_bounds(x, y, width, height):
-    return 0 <= x < width and 0 <= y < height
-
-
-location_queue = Queue()
-location_queue.put((0, 0, 0))
+location_stack = [(0, 0, 0)]
 visited_locations = set()
 energized_tiles = set()
 
-while not location_queue.empty():
-    x, y, d = location_queue.get()
+while len(location_stack) > 0:
+    x, y, d = location_stack.pop()
     if (x, y, d) in visited_locations:
         continue
     visited_locations.add((x, y, d))
@@ -32,7 +24,7 @@ while not location_queue.empty():
         new_pos_x = x + new_location[0]
         new_pos_y = y + new_location[1]
         new_pos_d = (d + new_location[2]) % 4
-        if check_bounds(new_pos_x, new_pos_y, width, height):
-            location_queue.put((new_pos_x, new_pos_y, new_pos_d))
+        if 0 <= new_pos_x < width and 0 <= new_pos_y < height:
+            location_stack.append((new_pos_x, new_pos_y, new_pos_d))
 
 print(len(energized_tiles))
