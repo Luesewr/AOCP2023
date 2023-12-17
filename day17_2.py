@@ -54,6 +54,7 @@ while not pq.empty():
 
     if x == width - 1 and y == height - 1 and pq_item.straight_counter >= 4:
         best_value = pq_item.heat_loss
+        break
 
     for i in range(-1, 2):
         if i == 0 and pq_item.straight_counter >= 10:

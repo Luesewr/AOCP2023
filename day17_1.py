@@ -38,22 +38,23 @@ pq.put(QueueItem((0, 1, 1), heat_values[1][0], 1))
 
 best_value = sum([sum(values) for values in heat_values])
 
-visited = set()
+visited = {}
 
 while not pq.empty():
     pq_item = pq.get()
     x, y, d = pq_item.location
-    info = (x, y, d, pq_item.straight_counter)
-    if info in visited:
+    info = (x, y, d)
+    if info in visited and pq_item.straight_counter >= visited[info]:
         continue
 
-    visited.add(info)
+    visited[info] = pq_item.straight_counter
 
     if best_value < pq_item.heat_loss:
         break
 
     if x == width - 1 and y == height - 1:
         best_value = pq_item.heat_loss
+        break
 
     for i in range(-1, 2):
         if i == 0 and pq_item.straight_counter >= 3:
