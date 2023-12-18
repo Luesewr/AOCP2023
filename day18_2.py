@@ -1,12 +1,18 @@
-from shapely import Polygon
-
 f = open("inputs/day18.txt")
 dig_plan = [instruction.split(" ") for instruction in f.read().split("\n")]
 points = []
 circumference = 0
 x = 0
 y = 0
-t = 0
+
+
+def area(p):
+    return abs(sum(x0*y1 - x1*y0 for ((x0, y0), (x1, y1)) in segments(p))) // 2
+
+
+def segments(p):
+    return zip(p, p[1:] + [p[0]])
+
 
 for instruction_index, instruction in enumerate(dig_plan):
     direction, len_str, color = instruction
@@ -24,6 +30,4 @@ for instruction_index, instruction in enumerate(dig_plan):
     elif d == '3':
         y -= length
 
-t += int(Polygon(points).area) + circumference // 2 + 1
-
-print(t)
+print(area(points) + circumference // 2 + 1)
