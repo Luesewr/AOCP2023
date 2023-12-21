@@ -54,7 +54,7 @@ for _ in range(1000):
         if current_module[0] == '&':
             if origin in current_module[1]:
                 current_module[1][origin] = pulse_type
-            all_high = all(last_pulse is True for last_pulse in current_module[1].values())
+            all_high = all(last_pulse for last_pulse in current_module[1].values())
 
             for connection in current_module[2]:
                 pulse_queue.append((connection, not all_high, current_name))
