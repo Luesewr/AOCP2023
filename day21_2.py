@@ -6,7 +6,7 @@
 # 626078993855994 not right
 # 624687527117777 not right
 
-f = open("inputs/day21.txt")
+f = open("inputs/other_day21.txt")
 lines = f.read().split('\n')
 start_y = ['S' in line for line in lines].index(True)
 start_x = lines[start_y].index('S')
@@ -31,22 +31,26 @@ def check_bounds(x, y, width, height):
     return 0 <= x <= width - 1 and 0 <= y <= height - 1
 
 
-def count_pots(x, y, steps):
+def count_pots(x, y, steps, bounded, positions=None):
     if steps <= 0:
         return 0
-    positions = {(x, y)}
+    if positions is None:
+        positions = {(x, y)}
     for _ in range(steps):
         new_positions = set()
 
         for x, y in positions:
             for d in range(4):
                 new_x, new_y = apply_direction(x, y, d)
-                if check_bounds(new_x, new_y, length, length) and lines[new_y][new_x] != '#':
-                    new_positions.add((new_x, new_y))
+                if lines[(new_y + length) % length][(new_x + length) % length] != '#':
+                    if not bounded:
+                        new_positions.add((new_x, new_y))
+                    elif check_bounds(new_x, new_y, length, length):
+                        new_positions.add((new_x, new_y))
 
         positions = new_positions
     # print(positions)
-    return len(positions)
+    return positions
 
 
 prev_positions = None
@@ -81,26 +85,29 @@ while True:
 t = 0
 lengths_covered = ((steps_needed + 1) - (length - 1) // 2) // length * 2 + 1
 print(lengths_covered)
-full_layouts_covered = (lengths_covered * lengths_covered + 1) // 2
-print(full_layouts_covered)
-
-t += len(even_positions) * full_layouts_covered
-
-print(t)
-# remaining_steps = (steps_needed - ((lengths_covered - 1) // 2 * length) - 1)
 remaining_steps = steps_needed % length
 print(remaining_steps)
-half_length_index = (length - 1) // 2
 
-side_pots_starting_positions = [(half_length_index, 0), (length - 1, half_length_index), (half_length_index, length - 1), (0, half_length_index)]
-side_pots_sizes = [count_pots(x, y, remaining_steps) for x, y in side_pots_starting_positions]
-print(side_pots_sizes)
 
-corner_pots_starting_positions = [(0, 0), (length - 1, 0), (length - 1, length - 1), (0, length - 1)]
-corner_pots_sizes = [count_pots(x, y, remaining_steps) for x, y in corner_pots_starting_positions]
-print(corner_pots_sizes)
+if steps_needed % 2 == 1:
+    t += len(even_positions) * (((lengths_covered - 1) // 2) ** 2)
+    t += len(odd_positions) * (((lengths_covered - 1) // 2 - 1) ** 2)
+    small_edges = count_pots(start_x, start_y, length + remaining_steps, False)
+    big_edges = count_pots(start_x, start_y, 2 * length + remaining_steps, False)
+else:
+    t += len(odd_positions) * (((lengths_covered - 1) // 2) ** 2)
+    t += len(even_positions) * (((lengths_covered - 1) // 2 - 1) ** 2)
+    small_edges = count_pots(start_x, start_y, length + remaining_steps, False)
+    big_edges = count_pots(start_x, start_y, 2 * length + remaining_steps, False)
 
-t += sum(side_pots_sizes)
-t += sum(corner_pots_sizes) * ((lengths_covered - 1) // 2 - 1)
+small_edges = list(filter(lambda x: ((x[0] < 0 or x[0] >= length) and (x[1] < 0 or x[1] >= length)), small_edges))
+big_edges = list(filter(lambda x: (((0 > x[0] > -length) or (length <= x[0] < 2 * length)) and ((0 > x[1] > -length) or (length <= x[1] < 2 * length))), big_edges))
+print(t)
+t += len(small_edges) * ((lengths_covered - 1) // 2 + 1)
+t += len(big_edges) * ((lengths_covered - 1) // 2)
+print(t)
 
+corners = list(filter(lambda x: ((x[0] < 0 or x[0] >= length) and (0 <= x[1] < length)) or ((x[1] < 0 or x[1] >= length) and (0 <= x[0] < length)), count_pots(start_x, start_y, length + remaining_steps, False)))
+
+t += len(corners)
 print(t)
