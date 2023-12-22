@@ -1,12 +1,4 @@
-# 452736719465550 too low
-# 626078181213049 too high
-# 624686714474832 not right
-# 626075086420000 not right
-# 626076711706062 not right
-# 626078993855994 not right
-# 624687527117777 not right
-
-f = open("inputs/other_day21.txt")
+f = open("inputs/day21.txt")
 lines = f.read().split('\n')
 start_y = ['S' in line for line in lines].index(True)
 start_x = lines[start_y].index('S')
@@ -60,7 +52,6 @@ even_positions = None
 odd_positions = None
 steps = 0
 while True:
-    steps += 1
     new_positions = set()
 
     for x, y in current_positions:
@@ -84,28 +75,24 @@ while True:
 
 t = 0
 lengths_covered = ((steps_needed + 1) - (length - 1) // 2) // length * 2 + 1
-print(lengths_covered)
 remaining_steps = steps_needed % length
-print(remaining_steps)
-
 
 if steps_needed % 2 == 1:
     t += len(even_positions) * (((lengths_covered - 1) // 2) ** 2)
     t += len(odd_positions) * (((lengths_covered - 1) // 2 - 1) ** 2)
-    small_edges = count_pots(start_x, start_y, length + remaining_steps, False)
-    big_edges = count_pots(start_x, start_y, 2 * length + remaining_steps, False)
+    small_edges = count_pots(start_x, start_y, remaining_steps + 2, False, positions=odd_positions)
+    big_edges = count_pots(start_x, start_y, length + remaining_steps + 1, False, positions=even_positions)
 else:
     t += len(odd_positions) * (((lengths_covered - 1) // 2) ** 2)
     t += len(even_positions) * (((lengths_covered - 1) // 2 - 1) ** 2)
-    small_edges = count_pots(start_x, start_y, length + remaining_steps, False)
-    big_edges = count_pots(start_x, start_y, 2 * length + remaining_steps, False)
+    small_edges = count_pots(start_x, start_y, remaining_steps + 1, False, positions=even_positions)
+    big_edges = count_pots(start_x, start_y, length + remaining_steps + 2, False, positions=odd_positions)
 
 small_edges = list(filter(lambda x: ((x[0] < 0 or x[0] >= length) and (x[1] < 0 or x[1] >= length)), small_edges))
-big_edges = list(filter(lambda x: (((0 > x[0] > -length) or (length <= x[0] < 2 * length)) and ((0 > x[1] > -length) or (length <= x[1] < 2 * length))), big_edges))
-print(t)
-t += len(small_edges) * ((lengths_covered - 1) // 2 + 1)
-t += len(big_edges) * ((lengths_covered - 1) // 2)
-print(t)
+big_edges = list(filter(lambda x: (((-length <= x[0] < 0) or (length <= x[0] < 2 * length)) and ((-length <= x[1] < 0) or (length <= x[1] < 2 * length))), big_edges))
+
+t += len(small_edges) * ((lengths_covered - 1) // 2)
+t += len(big_edges) * ((lengths_covered - 1) // 2 - 1)
 
 corners = list(filter(lambda x: ((x[0] < 0 or x[0] >= length) and (0 <= x[1] < length)) or ((x[1] < 0 or x[1] >= length) and (0 <= x[0] < length)), count_pots(start_x, start_y, length + remaining_steps, False)))
 
