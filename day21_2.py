@@ -41,7 +41,6 @@ def count_pots(x, y, steps, bounded, positions=None):
                         new_positions.add((new_x, new_y))
 
         positions = new_positions
-    # print(positions)
     return positions
 
 
