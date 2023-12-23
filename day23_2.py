@@ -27,7 +27,7 @@ class QueueNode:
         self.visited = visited
 
     def __lt__(self, other):
-        return other.depth - (self.node.x + self.node.y) < self.depth - (other.node.x + other.node.y)
+        return self.depth + self.node.x + self.node.y > other.depth + other.node.x + other.node.y
 
 
 def apply_direction(x, y, direction):
