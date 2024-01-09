@@ -1,0 +1,1246 @@
+a = px
+b = py
+c = pz
+d = pvx
+e = pvy
+f = pvz
+g = x1
+h = y1
+i = z1
+j = dx1
+k = dy1
+l = dz1
+m = x2
+n = y2
+o = z2
+p = dx2
+q = dy2
+r = dz2
+s = x3
+t = y3
+u = z3
+v = dx3
+w = dy3
+x = dz3
+y = x4
+z = y4
+A = z4
+B = dx4
+C = dy4
+D = dz4
+
+g + T * j = a + T * d,
+h + T * k = b + T * e,
+i + T * l = c + T * f,
+m + U * p = a + U * d,
+n + U * q = b + U * e,
+o + U * r = c + U * f,
+s + V * v = a + V * d,
+t + V * w = b + V * e,
+u + V * x = c + V * f,
+y + W * B = a + W * d,
+z + W * C = b + W * e,
+A + W * D = c + W * f,
+
+T = (a - g) / (j - d)
+T = (b - h) / (k - e)
+T = (c - i) / (l - f)
+U = (a - m) / (p - d)
+U = (b - n) / (q - e)
+U = (c - o) / (r - f)
+V = (a - s) / (v - d)
+V = (b - t) / (w - e)
+V = (c - u) / (x - f)
+W = (a - y) / (B - d)
+W = (b - z) / (C - e)
+W = (c - A) / (D - f)
+
+line 1, T 2
+g + (b - h) / (k - e) * j = a + (b - h) / (k - e) * d
+g * (k - e) + (b - h) * j = a * (k - e) + (b - h) * d
+(g - a) * (k - e) + (j - d) * (b - h) = 0
+
+line 1, T 3
+g + (c - i) / (l - f) * j = a + (c - i) / (l - f) * d
+g * (l - f) + (c - i) * j = a * (l - f) + (c - i) * d
+(g - a) * (l - f) + (j - d) * (c - i) = 0
+
+line 2, T 1
+(h - b) * (j - d) + (k - e) * (a - g) = 0
+
+line 2, T 3
+(h - b) * (l - f) + (k - e) * (c - i) = 0
+
+line 3, T 1
+(i - c) * (j - d) + (l - f) * (a - g) = 0
+
+line 3, T 2
+(i - c) * (k - e) + (l - f) * (b - h) = 0
+
+line 4, U 2
+(m - a) * (q - e) + (p - d) * (b - n) = 0
+
+line 4, U 3
+(m - a) * (r - f) + (p - d) * (c - o) = 0
+
+line 5, U 1
+(n - b) * (p - d) + (q - e) * (a - m) = 0
+
+line 5, U 3
+(n - b) * (r - f) + (q - e) * (c - o) = 0
+
+line 6, U 1
+(o - c) * (p - d) + (r - f) * (a - m) = 0
+
+line 6, U 2
+(o - c) * (q - e) + (r - f) * (b - n) = 0
+
+line 7, V 2
+(s - a) * (w - e) + (v - d) * (b - t) = 0
+
+line 7, V 3
+(s - a) * (x - f) + (v - d) * (c - u) = 0
+
+line 8, V 1
+(t - b) * (v - d) + (w - e) * (a - s) = 0
+
+line 8, V 3
+(t - b) * (x - f) + (w - e) * (c - u) = 0
+
+line 9, V 1
+(u - c) * (v - d) + (x - f) * (a - s) = 0
+
+line 9, V 2
+(u - c) * (w - e) + (x - f) * (b - t) = 0
+
+
+line 1 T 2 solved for a
+(g - a) * (k - e) + (j - d) * (b - h) = 0
+g - a = -((j - d) * (b - h)) / (k - e)
+-a = -((j - d) * (b - h)) / (k - e) - g
+a = (j - d) * (b - h) / (k - e) + g
+
+line 1 T 3 solved for a
+(g - a) * (l - f) + (j - d) * (c - i) = 0
+(g - a) * (l - f) = -(j - d) * (c - i)
+g - a = -(j - d) * (c - i) / (l - f)
+- a = -(j - d) * (c - i) / (l - f) - g
+a = (j - d) * (c - i) / (l - f) + g
+
+compared solved a's
+(j - d) * (b - h) / (k - e) + g = (j - d) * (c - i) / (l - f) + g
+(b - h) / (k - e) = (c - i) / (l - f)
+(b - h) * (l - f) = (c - i) * (k - e)
+solved for b
+b - h = (c - i) * (k - e) / (l - f)
+b = (c - i) * (k - e) / (l - f) + h
+solved for c
+(b - h) * (l - f) = (c - i) * (k - e)
+(b - h) * (l - f) / (k - e) = c - i
+c = (b - h) * (l - f) / (k - e) + i
+
+
+line 2 T 1 solved for b
+(h - b) * (j - d) + (k - e) * (a - g) = 0
+b = (k - e) * (a - g) / (j - d) + h
+
+line 2 T 3 solved for b
+(h - b) * (l - f) + (k - e) * (c - i) = 0
+b = (k - e) * (c - i) / (l - f) + h
+
+compared solved b's
+(k - e) * (a - g) / (j - d) + h = (k - e) * (c - i) / (l - f) + h
+(a - g) / (j - d) = (c - i) / (l - f)
+(a - g) * (l - f) = (c - i) * (j - d)
+solved for a
+a - g = (c - i) * (j - d) / (l - f)
+a = (c - i) * (j - d) / (l - f) + g
+solved for c
+c - i = (a - g) * (l - f) / (j - d)
+c = (a - g) * (l - f) / (j - d) + i
+
+
+line 3 T 1 solved for c
+(i - c) * (j - d) + (l - f) * (a - g) = 0
+c = (l - f) * (a - g) / (j - d) + i
+
+line 3 T 2 solved for c
+(i - c) * (k - e) + (l - f) * (b - h) = 0
+c = (l - f) * (b - h) / (k - e) + i
+
+compared solved c's
+(l - f) * (a - g) / (j - d) + i = (l - f) * (b - h) / (k - e) + i
+(a - g) / (j - d) = (b - h) / (k - e)
+(a - g) * (k - e) = (b - h) * (j - d)
+solved for a
+a = (b - h) * (j - d) / (k - e) + g
+solved for b
+b = (a - g) * (k - e) / (j - d) + h
+
+
+a = (j - d) * (b - h) / (k - e) + g
+a = (j - d) * (c - i) / (l - f) + g
+b = (k - e) * (a - g) / (j - d) + h
+b = (k - e) * (c - i) / (l - f) + h
+c = (l - f) * (b - h) / (k - e) + i
+c = (l - f) * (a - g) / (j - d) + i
+
+a = (p - d) * (b - n) / (q - e) + m
+a = (p - d) * (c - o) / (r - f) + m
+b = (q - e) * (a - m) / (p - d) + n
+b = (q - e) * (c - o) / (r - f) + n
+c = (r - f) * (b - n) / (q - e) + o
+c = (r - f) * (a - m) / (p - d) + o
+
+
+a = (v - d) * (b - t) / (w - e) + s
+a = (v - d) * (c - u) / (x - f) + s
+b = (w - e) * (a - s) / (v - d) + t
+b = (w - e) * (c - u) / (x - f) + t
+c = (x - f) * (b - t) / (w - e) + u
+c = (x - f) * (a - s) / (v - d) + u
+
+a = (B - d) * (b - z) / (C - e) + y
+a = (B - d) * (c - A) / (D - f) + y
+b = (C - e) * (a - y) / (B - d) + z
+b = (C - e) * (c - A) / (D - f) + z
+c = (D - f) * (b - z) / (C - e) + A
+c = (D - f) * (a - y) / (B - d) + A
+
+(j - d) * (b - h) / (k - e) + g = (p - d) * (b - n) / (q - e) + m
+b = ((m - g) * (k - e) * (q - e) + h * (j - d) * (q - e) - n * (p - d) * (k - e)) / ((j - d) * (q - e) - (p - d) * (k - e))
+
+
+(j - d) * (c - i) / (l - f) + g = (p - d) * (c - o) / (r - f) + m
+c = ((m - g) * (l - f) * (r - f) + i * (j - d) * (r - f) - o * (p - d) * (l - f)) / ((j - d) * (r - f) - (p - d) * (l - f))
+
+
+(v - d) * (b - t) / (w - e) + s = (B - d) * (b - z) / (C - e) + y
+b = ((y - s) * (w - e) * (C - e) + t * (v - d) * (C - e) - z * (B - d) * (w - e)) / ((v - d) * (C - e) - (B - d) * (w - e))
+
+
+(v - d) * (c - u) / (x - f) + s = (B - d) * (c - A) / (D - f) + y
+c = ((y - s) * (x - f) * (D - f) + u * (v - d) * (D - f) - A * (B - d) * (x - f)) / ((v - d) * (D - f) - (B - d) * (x - f))
+
+
+((m - g) * (k - e) * (q - e) + h * (j - d) * (q - e) - n * (p - d) * (k - e)) / ((j - d) * (q - e) - (p - d) * (k - e)) =
+((y - s) * (w - e) * (C - e) + t * (v - d) * (C - e) - z * (B - d) * (w - e)) / ((v - d) * (C - e) - (B - d) * (w - e))
+
+
+((m - g) * (k - e) * (q - e) + h * (j - d) * (q - e) - n * (p - d) * (k - e)) * ((v - d) * (C - e) - (B - d) * (w - e)) =
+((y - s) * (w - e) * (C - e) + t * (v - d) * (C - e) - z * (B - d) * (w - e)) * ((j - d) * (q - e) - (p - d) * (k - e))
+
++ (m - g) * (k - e) * (q - e) * ((v - d) * (C - e) - (B - d) * (w - e))
++ h * (j - d) * (q - e) * ((v - d) * (C - e) - (B - d) * (w - e))
+- n * (p - d) * (k - e) * ((v - d) * (C - e) - (B - d) * (w - e))
+=
++ (y - s) * (w - e) * (C - e) * ((j - d) * (q - e) - (p - d) * (k - e))
++ t * (v - d) * (C - e) * ((j - d) * (q - e) - (p - d) * (k - e))
+- z * (B - d) * (w - e) * ((j - d) * (q - e) - (p - d) * (k - e))
+
++ (m - g) * (k - e) * (q - e) * (v - d) * (C - e)
++ h * (j - d) * (q - e) * (v - d) * (C - e)
+- n * (p - d) * (k - e) * (v - d) * (C - e)
+- (m - g) * (k - e) * (q - e) * (B - d) * (w - e)
+- h * (j - d) * (q - e) * (B - d) * (w - e)
++ n * (p - d) * (k - e) * (B - d) * (w - e)
+=
++ (y - s) * (w - e) * (C - e) * (j - d) * (q - e)
++ t * (v - d) * (C - e) * (j - d) * (q - e)
+- z * (B - d) * (w - e) * (j - d) * (q - e)
+- (y - s) * (w - e) * (C - e) * (p - d) * (k - e)
+- t * (v - d) * (C - e) * (p - d) * (k - e)
++ z * (B - d) * (w - e) * (p - d) * (k - e)
+
+
+solve for d
++ (m - g) * (k - e) * (q - e) * v * (C - e)
++ h * j * (q - e) * (v - d) * (C - e)
+- n * p * (k - e) * (v - d) * (C - e)
+- (m - g) * (k - e) * (q - e) * B * (w - e)
+- h * j * (q - e) * (B - d) * (w - e)
++ n * p * (k - e) * (B - d) * (w - e)
+- (m - g) * (k - e) * (q - e) * d * (C - e)
+- h * d * (q - e) * (v - d) * (C - e)
++ n * d * (k - e) * (v - d) * (C - e)
++ (m - g) * (k - e) * (q - e) * d * (w - e)
++ h * d * (q - e) * (B - d) * (w - e)
+- n * d * (k - e) * (B - d) * (w - e)
+=
++ (y - s) * (w - e) * (C - e) * j * (q - e)
++ t * v * (C - e) * (j - d) * (q - e)
+- z * B * (w - e) * (j - d) * (q - e)
+- (y - s) * (w - e) * (C - e) * p * (k - e)
+- t * v * (C - e) * (p - d) * (k - e)
++ z * B * (w - e) * (p - d) * (k - e)
+- (y - s) * (w - e) * (C - e) * d * (q - e)
+- t * d * (C - e) * (j - d) * (q - e)
++ z * d * (w - e) * (j - d) * (q - e)
++ (y - s) * (w - e) * (C - e) * d * (k - e)
++ t * d * (C - e) * (p - d) * (k - e)
+- z * d * (w - e) * (p - d) * (k - e)
+
+
+
++ (m - g) * (k - e) * (q - e) * v * (C - e)
++ h * j * (q - e) * v * (C - e)
+- n * p * (k - e) * v * (C - e)
+- (m - g) * (k - e) * (q - e) * B * (w - e)
+- h * j * (q - e) * B * (w - e)
++ n * p * (k - e) * B * (w - e)
+- h * d * (q - e) * v * (C - e)
++ n * d * (k - e) * v * (C - e)
++ h * d * (q - e) * B * (w - e)
+- n * d * (k - e) * B * (w - e)
+
+- h * j * (q - e) * d * (C - e)
++ n * p * (k - e) * d * (C - e)
++ h * j * (q - e) * d * (w - e)
+- n * p * (k - e) * d * (w - e)
++ (m - g) * (k - e) * (q - e) * d * (w - e)
+- (m - g) * (k - e) * (q - e) * d * (C - e)
++ h * d * (q - e) * d * (C - e)
+- n * d * (k - e) * d * (C - e)
+- h * d * (q - e) * d * (w - e)
++ n * d * (k - e) * d * (w - e)
+=
++ (y - s) * (w - e) * (C - e) * j * (q - e)
++ t * v * (C - e) * j * (q - e)
+- z * B * (w - e) * j * (q - e)
+- (y - s) * (w - e) * (C - e) * p * (k - e)
+- t * v * (C - e) * p * (k - e)
++ z * B * (w - e) * p * (k - e)
+- (y - s) * (w - e) * (C - e) * d * (q - e)
+- t * d * (C - e) * j * (q - e)
++ z * d * (w - e) * j * (q - e)
++ (y - s) * (w - e) * (C - e) * d * (k - e)
++ t * d * (C - e) * p * (k - e)
+- z * d * (w - e) * p * (k - e)
+
+- t * v * (C - e) * d * (q - e)
++ z * B * (w - e) * d * (q - e)
++ t * v * (C - e) * d * (k - e)
+- z * B * (w - e) * d * (k - e)
++ t * d * (C - e) * d * (q - e)
+- z * d * (w - e) * d * (q - e)
+- t * d * (C - e) * d * (k - e)
++ z * d * (w - e) * d * (k - e)
+
+a1=
++ h * (q - e) * (C - e)
+- n * (k - e) * (C - e)
+- h * (q - e) * (w - e)
++ n * (k - e) * (w - e)
+- t * (C - e) * (q - e)
++ z * (w - e) * (q - e)
++ t * (C - e) * (k - e)
+- z * (w - e) * (k - e)
+
+b1=
+- h * (q - e) * v * (C - e)
++ n * (k - e) * v * (C - e)
++ h * (q - e) * B * (w - e)
+- n * (k - e) * B * (w - e)
+
+- h * j * (q - e) * (C - e)
++ n * p * (k - e) * (C - e)
++ h * j * (q - e) * (w - e)
+- n * p * (k - e) * (w - e)
++ (m - g) * (k - e) * (q - e) * (w - e)
+- (m - g) * (k - e) * (q - e) * (C - e)
++ (y - s) * (w - e) * (C - e) * (q - e)
++ t * (C - e) * j * (q - e)
+- z * (w - e) * j * (q - e)
+- (y - s) * (w - e) * (C - e) * (k - e)
+- t * (C - e) * p * (k - e)
++ z * (w - e) * p * (k - e)
+
++ t * v * (C - e) * (q - e)
+- z * B * (w - e) * (q - e)
+- t * v * (C - e) * (k - e)
++ z * B * (w - e) * (k - e)
+
+c1=
++ (m - g) * (k - e) * (q - e) * v * (C - e)
++ h * j * (q - e) * v * (C - e)
+- n * p * (k - e) * v * (C - e)
+- (m - g) * (k - e) * (q - e) * B * (w - e)
+- h * j * (q - e) * B * (w - e)
++ n * p * (k - e) * B * (w - e)
+- (y - s) * (w - e) * (C - e) * j * (q - e)
+- t * v * (C - e) * j * (q - e)
++ z * B * (w - e) * j * (q - e)
++ (y - s) * (w - e) * (C - e) * p * (k - e)
++ t * v * (C - e) * p * (k - e)
+- z * B * (w - e) * p * (k - e)
+
+
+(j - d) * (b - h) / (k - e) + g = (p - d) * (b - n) / (q - e) + m
+b = ((m - g) * (k - e) * (q - e) + h * (j - d) * (q - e) - n * (p - d) * (k - e)) / ((j - d) * (q - e) - (p - d) * (k - e))
+
+
+(j - d) * (c - i) / (l - f) + g = (p - d) * (c - o) / (r - f) + m
+c = ((m - g) * (l - f) * (r - f) + i * (j - d) * (r - f) - o * (p - d) * (l - f)) / ((j - d) * (r - f) - (p - d) * (l - f))
+
+
+(v - d) * (b - t) / (w - e) + s = (B - d) * (b - z) / (C - e) + y
+b = ((y - s) * (w - e) * (C - e) + t * (v - d) * (C - e) - z * (B - d) * (w - e)) / ((v - d) * (C - e) - (B - d) * (w - e))
+
+
+(v - d) * (c - u) / (x - f) + s = (B - d) * (c - A) / (D - f) + y
+c = ((y - s) * (x - f) * (D - f) + u * (v - d) * (D - f) - A * (B - d) * (x - f)) / ((v - d) * (D - f) - (B - d) * (x - f))
+
+
+a2=
++ i * (r - f) * (D - f)
+- o * (l - f) * (D - f)
+- i * (r - f) * (x - f)
++ o * (l - f) * (x - f)
+- u * (D - f) * (r - f)
++ A * (x - f) * (r - f)
++ u * (D - f) * (l - f)
+- A * (x - f) * (l - f)
+
+b2=
+- i * (r - f) * v * (D - f)
++ o * (l - f) * v * (D - f)
++ i * (r - f) * B * (x - f)
+- o * (l - f) * B * (x - f)
+
+- i * j * (r - f) * (D - f)
++ o * p * (l - f) * (D - f)
++ i * j * (r - f) * (x - f)
+- o * p * (l - f) * (x - f)
++ (m - g) * (l - f) * (r - f) * (x - f)
+- (m - g) * (l - f) * (r - f) * (D - f)
++ (y - s) * (x - f) * (D - f) * (r - f)
++ u * (D - f) * j * (r - f)
+- A * (x - f) * j * (r - f)
+- (y - s) * (x - f) * (D - f) * (l - f)
+- u * (D - f) * p * (l - f)
++ A * (x - f) * p * (l - f)
+
++ u * v * (D - f) * (r - f)
+- A * B * (x - f) * (r - f)
+- u * v * (D - f) * (l - f)
++ A * B * (x - f) * (l - f)
+
+c2=
++ (m - g) * (l - f) * (r - f) * v * (D - f)
++ i * j * (r - f) * v * (D - f)
+- o * p * (l - f) * v * (D - f)
+- (m - g) * (l - f) * (r - f) * B * (x - f)
+- i * j * (r - f) * B * (x - f)
++ o * p * (l - f) * B * (x - f)
+- (y - s) * (x - f) * (D - f) * j * (r - f)
+- u * v * (D - f) * j * (r - f)
++ A * B * (x - f) * j * (r - f)
++ (y - s) * (x - f) * (D - f) * p * (l - f)
++ u * v * (D - f) * p * (l - f)
+- A * B * (x - f) * p * (l - f)
+
+
+solve for a
+(k - e) * (a - g) / (j - d) + h = (q - e) * (a - m) / (p - d) + n
+(k - e) * (a - g) * (p - d) + h * (j - d) * (p - d) = (q - e) * (a - m) * (j - d) + n * (j - d) * (p - d)
+(k - e) * (a - g) * (p - d) - (q - e) * (a - m) * (j - d) = n * (j - d) * (p - d) - h * (j - d) * (p - d)
+(k - e) * (a - g) * (p - d) - (q - e) * (a - m) * (j - d) = (n - h) * (j - d) * (p - d)
+a * (k - e) * (p - d) - g * (k - e) * (p - d) - a * (q - e) * (j - d) + m * (q - e) * (j - d) = (n - h) * (j - d) * (p - d)
+a * ((k - e) * (p - d) - (q - e) * (j - d)) = (n - h) * (j - d) * (p - d) + g * (k - e) * (p - d) - m * (q - e) * (j - d)
+a = ((n - h) * (j - d) * (p - d) + g * (k - e) * (p - d) - m * (q - e) * (j - d)) / ((k - e) * (p - d) - (q - e) * (j - d))
+
+
+solve for c
+(k - e) * (c - i) / (l - f) + h = (q - e) * (c - o) / (r - f) + n
+c = ((n - h) * (l - f) * (r - f) + i * (k - e) * (r - f) - o * (q - e) * (l - f)) / ((k - e) * (r - f) - (q - e) * (l - f))
+
+
+solve for a
+(w - e) * (a - s) / (v - d) + t = (C - e) * (a - y) / (B - d) + z
+a = ((z - t) * (v - d) * (B - d) + s * (w - e) * (B - d) - y * (C - e) * (v - d)) / ((w - e) * (B - d) - (C - e) * (v - d))
+
+
+solve for c
+(w - e) * (c - u) / (x - f) + t = (C - e) * (c - A) / (D - f) + z
+c = ((z - t) * (x - f) * (D - f) + u * (w - e) * (D - f) - A * (C - e) * (x - f)) / ((w - e) * (D - f) - (C - e) * (x - f))
+
+compare a's solve for e
+((n - h) * (j - d) * (p - d) + g * (k - e) * (p - d) - m * (q - e) * (j - d)) / ((k - e) * (p - d) - (q - e) * (j - d)) =
+((z - t) * (v - d) * (B - d) + s * (w - e) * (B - d) - y * (C - e) * (v - d)) / ((w - e) * (B - d) - (C - e) * (v - d))
+
+((n - h) * (j - d) * (p - d) + g * (k - e) * (p - d) - m * (q - e) * (j - d)) * ((w - e) * (B - d) - (C - e) * (v - d)) =
+((z - t) * (v - d) * (B - d) + s * (w - e) * (B - d) - y * (C - e) * (v - d)) * ((k - e) * (p - d) - (q - e) * (j - d))
+
+  (n - h) * (j - d) * (p - d) * (w - e) * (B - d) + g * (k - e) * (p - d) * (w - e) * (B - d) - m * (q - e) * (j - d) * (w - e) * (B - d)
+- (n - h) * (j - d) * (p - d) * (C - e) * (v - d) - g * (k - e) * (p - d) * (C - e) * (v - d) + m * (q - e) * (j - d) * (C - e) * (v - d) =
+  (z - t) * (v - d) * (B - d) * (k - e) * (p - d) + s * (w - e) * (B - d) * (k - e) * (p - d) - y * (C - e) * (v - d) * (k - e) * (p - d)
+- (z - t) * (v - d) * (B - d) * (q - e) * (j - d) - s * (w - e) * (B - d) * (q - e) * (j - d) + y * (C - e) * (v - d) * (q - e) * (j - d)
+
+
+  (n - h) * (j - d) * (p - d) * (w - e) * (B - d)
++ g * (k - e) * (p - d) * (w - e) * (B - d)
+- m * (q - e) * (j - d) * (w - e) * (B - d)
+- (n - h) * (j - d) * (p - d) * (C - e) * (v - d)
+- g * (k - e) * (p - d) * (C - e) * (v - d)
++ m * (q - e) * (j - d) * (C - e) * (v - d) =
+  (z - t) * (v - d) * (B - d) * (k - e) * (p - d)
++ s * (w - e) * (B - d) * (k - e) * (p - d)
+- y * (C - e) * (v - d) * (k - e) * (p - d)
+- (z - t) * (v - d) * (B - d) * (q - e) * (j - d)
+- s * (w - e) * (B - d) * (q - e) * (j - d)
++ y * (C - e) * (v - d) * (q - e) * (j - d)
+
+
+  (n - h) * (j - d) * (p - d) * w * (B - d)
+- (n - h) * (j - d) * (p - d) * e * (B - d)
++ g * (k - e) * (p - d) * w * (B - d)
+- g * (k - e) * (p - d) * e * (B - d)
+- m * (q - e) * (j - d) * w * (B - d)
++ m * (q - e) * (j - d) * e * (B - d)
+- (n - h) * (j - d) * (p - d) * C * (v - d)
++ (n - h) * (j - d) * (p - d) * e * (v - d)
+- g * (k - e) * (p - d) * C * (v - d)
++ g * (k - e) * (p - d) * e * (v - d)
++ m * (q - e) * (j - d) * C * (v - d)
+- m * (q - e) * (j - d) * e * (v - d) =
+  (z - t) * (v - d) * (B - d) * k * (p - d)
+- (z - t) * (v - d) * (B - d) * e * (p - d)
++ s * (w - e) * (B - d) * k * (p - d)
+- s * (w - e) * (B - d) * e * (p - d)
+- y * (C - e) * (v - d) * k * (p - d)
++ y * (C - e) * (v - d) * e * (p - d)
+- (z - t) * (v - d) * (B - d) * q * (j - d)
++ (z - t) * (v - d) * (B - d) * e * (j - d)
+- s * (w - e) * (B - d) * q * (j - d)
++ s * (w - e) * (B - d) * e * (j - d)
++ y * (C - e) * (v - d) * q * (j - d)
+- y * (C - e) * (v - d) * e * (j - d)
+
+
+  (n - h) * (j - d) * (p - d) * w * (B - d)
+- (n - h) * (j - d) * (p - d) * e * (B - d)
++ g * k * (p - d) * w * (B - d)
+- g * e * (p - d) * w * (B - d)
+- g * k * (p - d) * e * (B - d)
++ g * e * (p - d) * e * (B - d)
+- m * q * (j - d) * w * (B - d)
++ m * e * (j - d) * w * (B - d)
++ m * q * (j - d) * e * (B - d)
+- m * e * (j - d) * e * (B - d)
+- (n - h) * (j - d) * (p - d) * C * (v - d)
++ (n - h) * (j - d) * (p - d) * e * (v - d)
+- g * k * (p - d) * C * (v - d)
++ g * e * (p - d) * C * (v - d)
++ g * k * (p - d) * e * (v - d)
+- g * e * (p - d) * e * (v - d)
++ m * q * (j - d) * C * (v - d)
+- m * e * (j - d) * C * (v - d)
+- m * q * (j - d) * e * (v - d)
++ m * e * (j - d) * e * (v - d) =
+  (z - t) * (v - d) * (B - d) * k * (p - d)
+- (z - t) * (v - d) * (B - d) * e * (p - d)
++ s * w * (B - d) * k * (p - d)
+- s * e * (B - d) * k * (p - d)
+- s * w * (B - d) * e * (p - d)
++ s * e * (B - d) * e * (p - d)
+- y * C * (v - d) * k * (p - d)
++ y * e * (v - d) * k * (p - d)
++ y * C * (v - d) * e * (p - d)
+- y * e * (v - d) * e * (p - d)
+- (z - t) * (v - d) * (B - d) * q * (j - d)
++ (z - t) * (v - d) * (B - d) * e * (j - d)
+- s * w * (B - d) * q * (j - d)
++ s * e * (B - d) * q * (j - d)
++ s * w * (B - d) * e * (j - d)
+- s * e * (B - d) * e * (j - d)
++ y * C * (v - d) * q * (j - d)
+- y * e * (v - d) * q * (j - d)
+- y * C * (v - d) * e * (j - d)
++ y * e * (v - d) * e * (j - d)
+
+
++ e * e * m * (j - d) * (v - d)
+- e * e * m * (j - d) * (B - d)
+- e * e * g * (p - d) * (v - d)
++ e * e * g * (p - d) * (B - d)
+- e * e * s * (B - d) * (p - d)
++ e * e * s * (B - d) * (j - d)
++ e * e * y * (v - d) * (p - d)
+- e * e * y * (v - d) * (j - d)
+- e * g * k * (p - d) * (B - d)
++ e * g * k * (p - d) * (v - d)
+- e * g * w * (p - d) * (B - d)
++ e * g * C * (p - d) * (v - d)
++ e * m * q * (j - d) * (B - d)
+- e * m * q * (j - d) * (v - d)
++ e * m * w * (j - d) * (B - d)
+- e * m * C * (j - d) * (v - d)
++ e * s * k * (B - d) * (p - d)
++ e * s * w * (B - d) * (p - d)
+- e * s * q * (B - d) * (j - d)
+- e * s * w * (B - d) * (j - d)
+- e * y * k * (v - d) * (p - d)
+- e * y * C * (v - d) * (p - d)
++ e * y * q * (v - d) * (j - d)
++ e * y * C * (v - d) * (j - d)
+- e * (n - h) * (j - d) * (p - d) * (B - d)
++ e * (n - h) * (j - d) * (p - d) * (v - d)
++ e * (z - t) * (v - d) * (B - d) * (p - d)
+- e * (z - t) * (v - d) * (B - d) * (j - d)
++ g * k * w * (p - d) * (B - d)
+- g * k * C * (p - d) * (v - d)
+- m * q * w * (j - d) * (B - d)
++ m * q * C * (j - d) * (v - d)
+- s * w * k * (B - d) * (p - d)
++ s * w * q * (B - d) * (j - d)
++ y * C * k * (v - d) * (p - d)
+- y * C * q * (v - d) * (j - d)
+- k * (z - t) * (v - d) * (B - d) * (p - d)
++ q * (z - t) * (v - d) * (B - d) * (j - d)
++ w * (n - h) * (j - d) * (p - d) * (B - d)
+- C * (n - h) * (j - d) * (p - d) * (v - d)=0
+
+a3=
+m * (j - d) * (v - d)
+- m * (j - d) * (B - d)
+- g * (p - d) * (v - d)
++ g * (p - d) * (B - d)
+- s * (B - d) * (p - d)
++ s * (B - d) * (j - d)
++ y * (v - d) * (p - d)
+- y * (v - d) * (j - d)
+
+b3=
+- g * k * (p - d) * (B - d)
++ g * k * (p - d) * (v - d)
+- g * w * (p - d) * (B - d)
++ g * C * (p - d) * (v - d)
++ m * q * (j - d) * (B - d)
+- m * q * (j - d) * (v - d)
++ m * w * (j - d) * (B - d)
+- m * C * (j - d) * (v - d)
++ s * k * (B - d) * (p - d)
++ s * w * (B - d) * (p - d)
+- s * q * (B - d) * (j - d)
+- s * w * (B - d) * (j - d)
+- y * k * (v - d) * (p - d)
+- y * C * (v - d) * (p - d)
++ y * q * (v - d) * (j - d)
++ y * C * (v - d) * (j - d)
+- (n - h) * (j - d) * (p - d) * (B - d)
++ (n - h) * (j - d) * (p - d) * (v - d)
++ (z - t) * (v - d) * (B - d) * (p - d)
+- (z - t) * (v - d) * (B - d) * (j - d)
+
+c3 =
+g * k * w * (p - d) * (B - d)
+- g * k * C * (p - d) * (v - d)
+- m * q * w * (j - d) * (B - d)
++ m * q * C * (j - d) * (v - d)
+- s * w * k * (B - d) * (p - d)
++ s * w * q * (B - d) * (j - d)
++ y * C * k * (v - d) * (p - d)
+- y * C * q * (v - d) * (j - d)
+- k * (z - t) * (v - d) * (B - d) * (p - d)
++ q * (z - t) * (v - d) * (B - d) * (j - d)
++ w * (n - h) * (j - d) * (p - d) * (B - d)
+- C * (n - h) * (j - d) * (p - d) * (v - d)
+
+a = ((n - h) * (j - d) * (p - d) + g * (k - e) * (p - d) - m * (q - e) * (j - d)) / ((k - e) * (p - d) - (q - e) * (j - d))
+
+c = ((n - h) * (l - f) * (r - f) + i * (k - e) * (r - f) - o * (q - e) * (l - f)) / ((k - e) * (r - f) - (q - e) * (l - f))
+
+a = ((z - t) * (v - d) * (B - d) + s * (w - e) * (B - d) - y * (C - e) * (v - d)) / ((w - e) * (B - d) - (C - e) * (v - d))
+
+c = ((z - t) * (x - f) * (D - f) + u * (w - e) * (D - f) - A * (C - e) * (x - f)) / ((w - e) * (D - f) - (C - e) * (x - f))
+
+a4=
+o * (l - f) * (x - f)
+- o * (l - f) * (D - f)
+- i * (r - f) * (x - f)
++ i * (r - f) * (D - f)
+- u * (D - f) * (r - f)
++ u * (D - f) * (l - f)
++ A * (x - f) * (r - f)
+- A * (x - f) * (l - f)
+
+b4=
+- i * k * (r - f) * (D - f)
++ i * k * (r - f) * (x - f)
+- i * w * (r - f) * (D - f)
++ i * C * (r - f) * (x - f)
++ o * q * (l - f) * (D - f)
+- o * q * (l - f) * (x - f)
++ o * w * (l - f) * (D - f)
+- o * C * (l - f) * (x - f)
++ u * k * (D - f) * (r - f)
++ u * w * (D - f) * (r - f)
+- u * q * (D - f) * (l - f)
+- u * w * (D - f) * (l - f)
+- A * k * (x - f) * (r - f)
+- A * C * (x - f) * (r - f)
++ A * q * (x - f) * (l - f)
++ A * C * (x - f) * (l - f)
+- (n - h) * (l - f) * (r - f) * (D - f)
++ (n - h) * (l - f) * (r - f) * (x - f)
++ (z - t) * (x - f) * (D - f) * (r - f)
+- (z - t) * (x - f) * (D - f) * (l - f)
+
+c4 =
+i * k * w * (r - f) * (D - f)
+- i * k * C * (r - f) * (x - f)
+- o * q * w * (l - f) * (D - f)
++ o * q * C * (l - f) * (x - f)
+- u * w * k * (D - f) * (r - f)
++ u * w * q * (D - f) * (l - f)
++ A * C * k * (x - f) * (r - f)
+- A * C * q * (x - f) * (l - f)
+- k * (z - t) * (x - f) * (D - f) * (r - f)
++ q * (z - t) * (x - f) * (D - f) * (l - f)
++ w * (n - h) * (l - f) * (r - f) * (D - f)
+- C * (n - h) * (l - f) * (r - f) * (x - f)
+
+
+
+
+c = (l - f) * (b - h) / (k - e) + i
+c = (l - f) * (a - g) / (j - d) + i
+c = (r - f) * (b - n) / (q - e) + o
+c = (r - f) * (a - m) / (p - d) + o
+
+c = (x - f) * (b - t) / (w - e) + u
+c = (x - f) * (a - s) / (v - d) + u
+c = (D - f) * (b - z) / (C - e) + A
+c = (D - f) * (a - y) / (B - d) + A
+
+
+solve for b
+(l - f) * (b - h) / (k - e) + i = (r - f) * (b - n) / (q - e) + o
+(l - f) * (b - h) * (q - e) + i * (k - e) * (q - e) = (r - f) * (b - n) * (k - e) + o * (k - e) * (q - e)
+(l - f) * (b - h) * (q - e) - (r - f) * (b - n) * (k - e) = (o - i) * (k - e) * (q - e)
+b = ((o - i) * (k - e) * (q - e) + h * (l - f) * (q - e) - n * (r - f) * (k - e)) / ((l - f) * (q - e) - (r - f) * (k - e))
+
+solve for a
+(l - f) * (a - g) / (j - d) + i = (r - f) * (a - m) / (p - d) + o
+c = ((o - i) * (j - d) * (p - d) + g * (l - f) * (p - d) - m * (r - f) * (j - d)) / ((l - f) * (p - d) - (r - f) * (j - d))
+
+solve for b
+(x - f) * (b - t) / (w - e) + u = (D - f) * (b - z) / (C - e) + A
+b = ((A - u) * (w - e) * (C - e) + t * (x - f) * (C - e) - z * (D - f) * (w - e)) / ((x - f) * (C - e) - (D - f) * (w - e))
+
+solve for a
+(x - f) * (a - s) / (v - d) + u = (D - f) * (a - y) / (B - d) + A
+c = ((A - u) * (v - d) * (B - d) + s * (x - f) * (B - d) - y * (D - f) * (v - d)) / ((x - f) * (B - d) - (D - f) * (v - d))
+
+
+solve for f
+((o - i) * (k - e) * (q - e) + h * (l - f) * (q - e) - n * (r - f) * (k - e)) / ((l - f) * (q - e) - (r - f) * (k - e))
+=
+((A - u) * (w - e) * (C - e) + t * (x - f) * (C - e) - z * (D - f) * (w - e)) / ((x - f) * (C - e) - (D - f) * (w - e))
+
+
+((o - i) * (k - e) * (q - e) + h * (l - f) * (q - e) - n * (r - f) * (k - e)) * ((x - f) * (C - e) - (D - f) * (w - e))
+=
+((A - u) * (w - e) * (C - e) + t * (x - f) * (C - e) - z * (D - f) * (w - e)) * ((l - f) * (q - e) - (r - f) * (k - e))
+
+
++ ((o - i) * (k - e) * (q - e) + h * (l - f) * (q - e) - n * (r - f) * (k - e)) * (x - f) * (C - e)
+- ((o - i) * (k - e) * (q - e) + h * (l - f) * (q - e) - n * (r - f) * (k - e)) * (D - f) * (w - e)
+=
++ ((A - u) * (w - e) * (C - e) + t * (x - f) * (C - e) - z * (D - f) * (w - e)) * (l - f) * (q - e)
+- ((A - u) * (w - e) * (C - e) + t * (x - f) * (C - e) - z * (D - f) * (w - e)) * (r - f) * (k - e)
+
+
++ (o - i) * (k - e) * (q - e) * (x - f) * (C - e) 
++ h * (l - f) * (q - e) * (x - f) * (C - e) 
+- n * (r - f) * (k - e) * (x - f) * (C - e)
+- (o - i) * (k - e) * (q - e) * (D - f) * (w - e) 
+- h * (l - f) * (q - e) * (D - f) * (w - e) 
++ n * (r - f) * (k - e) * (D - f) * (w - e)
+=
++ (A - u) * (w - e) * (C - e) * (l - f) * (q - e) 
++ t * (x - f) * (C - e) * (l - f) * (q - e) 
+- z * (D - f) * (w - e) * (l - f) * (q - e)
+- (A - u) * (w - e) * (C - e) * (r - f) * (k - e) 
+- t * (x - f) * (C - e) * (r - f) * (k - e) 
++ z * (D - f) * (w - e) * (r - f) * (k - e)
+
+
++ (o - i) * (k - e) * (q - e) * x * (C - e) 
+- (o - i) * (k - e) * (q - e) * D * (w - e) 
++ h * l * (q - e) * x * (C - e) 
+- n * r * (k - e) * x * (C - e)
+- h * l * (q - e) * D * (w - e) 
++ n * r * (k - e) * D * (w - e)
+- (o - i) * (k - e) * (q - e) * f * (C - e) 
++ (o - i) * (k - e) * (q - e) * f * (w - e) 
+- h * l * (q - e) * f * (C - e) 
++ n * r * (k - e) * f * (C - e)
++ h * l * (q - e) * f * (w - e) 
+- n * r * (k - e) * f * (w - e)
+- h * f * (q - e) * x * (C - e) 
++ n * f * (k - e) * x * (C - e)
++ h * f * (q - e) * D * (w - e) 
+- n * f * (k - e) * D * (w - e)
++ h * f * (q - e) * f * (C - e) 
+- n * f * (k - e) * f * (C - e)
+- h * f * (q - e) * f * (w - e) 
++ n * f * (k - e) * f * (w - e)
+=
++ (A - u) * (w - e) * (C - e) * l * (q - e) 
+- (A - u) * (w - e) * (C - e) * r * (k - e) 
++ t * x * (C - e) * l * (q - e) 
+- z * D * (w - e) * l * (q - e)
+- t * x * (C - e) * r * (k - e) 
++ z * D * (w - e) * r * (k - e)
+- (A - u) * (w - e) * (C - e) * f * (q - e) 
++ (A - u) * (w - e) * (C - e) * f * (k - e) 
+- t * x * (C - e) * f * (q - e) 
++ z * D * (w - e) * f * (q - e)
++ t * x * (C - e) * f * (k - e) 
+- z * D * (w - e) * f * (k - e)
+- t * f * (C - e) * l * (q - e) 
++ z * f * (w - e) * l * (q - e)
++ t * f * (C - e) * r * (k - e) 
+- z * f * (w - e) * r * (k - e)
++ t * f * (C - e) * f * (q - e) 
+- z * f * (w - e) * f * (q - e)
+- t * f * (C - e) * f * (k - e) 
++ z * f * (w - e) * f * (k - e)
+
+a5=
++ h * (q - e) * (C - e) 
+- n * (k - e) * (C - e)
+- h * (q - e) * (w - e) 
++ n * (k - e) * (w - e)
+- t * (C - e) * (q - e) 
++ z * (w - e) * (q - e)
++ t * (C - e) * (k - e) 
+- z * (w - e) * (k - e)
+
+b5=
+- (o - i) * (k - e) * (q - e) * (C - e) 
++ (o - i) * (k - e) * (q - e) * (w - e) 
+- h * l * (q - e) * (C - e) 
++ n * r * (k - e) * (C - e)
++ h * l * (q - e) * (w - e) 
+- n * r * (k - e) * (w - e)
+- h * (q - e) * x * (C - e) 
++ n * (k - e) * x * (C - e)
++ h * (q - e) * D * (w - e) 
+- n * (k - e) * D * (w - e)
++ (A - u) * (w - e) * (C - e) * (q - e) 
+- (A - u) * (w - e) * (C - e) * (k - e) 
++ t * x * (C - e) * (q - e) 
+- z * D * (w - e) * (q - e)
+- t * x * (C - e) * (k - e) 
++ z * D * (w - e) * (k - e)
++ t * (C - e) * l * (q - e) 
+- z * (w - e) * l * (q - e)
+- t * (C - e) * r * (k - e) 
++ z * (w - e) * r * (k - e)
+
+c5=
++ (o - i) * (k - e) * (q - e) * x * (C - e) 
+- (o - i) * (k - e) * (q - e) * D * (w - e) 
++ h * l * (q - e) * x * (C - e) 
+- n * r * (k - e) * x * (C - e)
+- h * l * (q - e) * D * (w - e) 
++ n * r * (k - e) * D * (w - e)
+- (A - u) * (w - e) * (C - e) * l * (q - e) 
++ (A - u) * (w - e) * (C - e) * r * (k - e) 
+- t * x * (C - e) * l * (q - e) 
++ z * D * (w - e) * l * (q - e)
++ t * x * (C - e) * r * (k - e) 
+- z * D * (w - e) * r * (k - e)
+
+b = ((o - i) * (k - e) * (q - e) + h * (l - f) * (q - e) - n * (r - f) * (k - e)) / ((l - f) * (q - e) - (r - f) * (k - e))
+
+solve for a
+(l - f) * (a - g) / (j - d) + i = (r - f) * (a - m) / (p - d) + o
+c = ((o - i) * (j - d) * (p - d) + g * (l - f) * (p - d) - m * (r - f) * (j - d)) / ((l - f) * (p - d) - (r - f) * (j - d))
+
+solve for b
+(x - f) * (b - t) / (w - e) + u = (D - f) * (b - z) / (C - e) + A
+b = ((A - u) * (w - e) * (C - e) + t * (x - f) * (C - e) - z * (D - f) * (w - e)) / ((x - f) * (C - e) - (D - f) * (w - e))
+
+solve for a
+(x - f) * (a - s) / (v - d) + u = (D - f) * (a - y) / (B - d) + A
+c = ((A - u) * (v - d) * (B - d) + s * (x - f) * (B - d) - y * (D - f) * (v - d)) / ((x - f) * (B - d) - (D - f) * (v - d))
+
+a6=
++ g * (p - d) * (B - d) 
+- m * (j - d) * (B - d)
+- g * (p - d) * (v - d) 
++ m * (j - d) * (v - d)
+- s * (B - d) * (p - d) 
++ y * (v - d) * (p - d)
++ s * (B - d) * (j - d) 
+- y * (v - d) * (j - d)
+
+b6=
+- (o - i) * (j - d) * (p - d) * (B - d) 
++ (o - i) * (j - d) * (p - d) * (v - d) 
+- g * l * (p - d) * (B - d) 
++ m * r * (j - d) * (B - d)
++ g * l * (p - d) * (v - d) 
+- m * r * (j - d) * (v - d)
+- g * (p - d) * x * (B - d) 
++ m * (j - d) * x * (B - d)
++ g * (p - d) * D * (v - d) 
+- m * (j - d) * D * (v - d)
++ (A - u) * (v - d) * (B - d) * (p - d) 
+- (A - u) * (v - d) * (B - d) * (j - d) 
++ s * x * (B - d) * (p - d) 
+- y * D * (v - d) * (p - d)
+- s * x * (B - d) * (j - d) 
++ y * D * (v - d) * (j - d)
++ s * (B - d) * l * (p - d) 
+- y * (v - d) * l * (p - d)
+- s * (B - d) * r * (j - d) 
++ y * (v - d) * r * (j - d)
+
+c6=
++ (o - i) * (j - d) * (p - d) * x * (B - d) 
+- (o - i) * (j - d) * (p - d) * D * (v - d) 
++ g * l * (p - d) * x * (B - d) 
+- m * r * (j - d) * x * (B - d)
+- g * l * (p - d) * D * (v - d) 
++ m * r * (j - d) * D * (v - d)
+- (A - u) * (v - d) * (B - d) * l * (p - d) 
++ (A - u) * (v - d) * (B - d) * r * (j - d) 
+- s * x * (B - d) * l * (p - d) 
++ y * D * (v - d) * l * (p - d)
++ s * x * (B - d) * r * (j - d) 
+- y * D * (v - d) * r * (j - d)
+
+
+
+
+
+a = (j - d) * (b - h) / (k - e) + g
+a = (j - d) * (c - i) / (l - f) + g
+b = (k - e) * (a - g) / (j - d) + h
+b = (k - e) * (c - i) / (l - f) + h
+c = (l - f) * (b - h) / (k - e) + i
+c = (l - f) * (a - g) / (j - d) + i
+
+a = (p - d) * (b - n) / (q - e) + m
+a = (p - d) * (c - o) / (r - f) + m
+b = (q - e) * (a - m) / (p - d) + n
+b = (q - e) * (c - o) / (r - f) + n
+c = (r - f) * (b - n) / (q - e) + o
+c = (r - f) * (a - m) / (p - d) + o
+
+
+a = (v - d) * (b - t) / (w - e) + s
+a = (v - d) * (c - u) / (x - f) + s
+b = (w - e) * (a - s) / (v - d) + t
+b = (w - e) * (c - u) / (x - f) + t
+c = (x - f) * (b - t) / (w - e) + u
+c = (x - f) * (a - s) / (v - d) + u
+
+a = (B - d) * (b - z) / (C - e) + y
+a = (B - d) * (c - A) / (D - f) + y
+b = (C - e) * (a - y) / (B - d) + z
+b = (C - e) * (c - A) / (D - f) + z
+c = (D - f) * (b - z) / (C - e) + A
+c = (D - f) * (a - y) / (B - d) + A
+
+
+(j - d) * (b - h) / (k - e) + g = (v - d) * (b - t) / (w - e) + s
+(j - d) * (b - h) * (w - e) + g * (w - e) * (k - e) = (v - d) * (b - t) * (k - e) + s * (w - e) * (k - e)
+(j - d) * (b - h) * (w - e) - (v - d) * (b - t) * (k - e) = (s - g) * (w - e) * (k - e)
+(j - d) * b * (w - e) - (v - d) * b * (k - e) = (s - g) * (w - e) * (k - e) + (j - d) * h * (w - e) - (v - d) * t * (k - e)
+b * ((j - d) * (w - e) - (v - d) * (k - e)) = (s - g) * (w - e) * (k - e) + (j - d) * h * (w - e) - (v - d) * t * (k - e)
+b = ((s - g) * (w - e) * (k - e) + (j - d) * h * (w - e) - (v - d) * t * (k - e)) / ((j - d) * (w - e) - (v - d) * (k - e))
+
+(p - d) * (b - n) / (q - e) + m = a = (B - d) * (b - z) / (C - e) + y
+b = ((y - m) * (C - e) * (q - e) + (p - d) * n * (C - e) - (B - d) * z * (q - e)) / ((p - d) * (C - e) - (B - d) * (q - e))
+
+((s - g) * (w - e) * (k - e) + (j - d) * h * (w - e) - (v - d) * t * (k - e)) / ((j - d) * (w - e) - (v - d) * (k - e))
+=
+((y - m) * (C - e) * (q - e) + (p - d) * n * (C - e) - (B - d) * z * (q - e)) / ((p - d) * (C - e) - (B - d) * (q - e))
+
+
+((s - g) * (w - e) * (k - e) + (j - d) * h * (w - e) - (v - d) * t * (k - e)) * ((p - d) * (C - e) - (B - d) * (q - e))
+=
+((y - m) * (C - e) * (q - e) + (p - d) * n * (C - e) - (B - d) * z * (q - e)) * ((j - d) * (w - e) - (v - d) * (k - e))
+
+
++ (s - g) * (w - e) * (k - e) * ((p - d) * (C - e) - (B - d) * (q - e)) 
++ (j - d) * h * (w - e) * ((p - d) * (C - e) - (B - d) * (q - e)) 
+- (v - d) * t * (k - e) * ((p - d) * (C - e) - (B - d) * (q - e))
+=
+(y - m) * (C - e) * (q - e) * ((j - d) * (w - e) - (v - d) * (k - e)) 
++ (p - d) * n * (C - e) * ((j - d) * (w - e) - (v - d) * (k - e)) 
+- (B - d) * z * (q - e) * ((j - d) * (w - e) - (v - d) * (k - e))
+
+
++ (s - g) * (w - e) * (k - e) * (p - d) * (C - e)
++ (j - d) * h * (w - e) * (p - d) * (C - e)
+- (v - d) * t * (k - e) * (p - d) * (C - e)
+- (s - g) * (w - e) * (k - e) * (B - d) * (q - e)
+- (j - d) * h * (w - e) * (B - d) * (q - e)
++ (v - d) * t * (k - e) * (B - d) * (q - e)
+=
++ (y - m) * (C - e) * (q - e) * (j - d) * (w - e)
++ (p - d) * n * (C - e) * (j - d) * (w - e)
+- (B - d) * z * (q - e) * (j - d) * (w - e)
+- (y - m) * (C - e) * (q - e) * (v - d) * (k - e)
+- (p - d) * n * (C - e) * (v - d) * (k - e)
++ (B - d) * z * (q - e) * (v - d) * (k - e)
+
+
+
++ (s - g) * (w - e) * (k - e) * p * (C - e)
+- (s - g) * (w - e) * (k - e) * B * (q - e)
++ j * h * (w - e) * p * (C - e)
+- v * t * (k - e) * p * (C - e)
+- j * h * (w - e) * B * (q - e)
++ v * t * (k - e) * B * (q - e)
+- (s - g) * (w - e) * (k - e) * d * (C - e)
++ (s - g) * (w - e) * (k - e) * d * (q - e)
+- j * h * (w - e) * d * (C - e)
++ v * t * (k - e) * d * (C - e)
++ j * h * (w - e) * d * (q - e)
+- v * t * (k - e) * d * (q - e)
+- d * h * (w - e) * p * (C - e)
++ d * t * (k - e) * p * (C - e)
++ d * h * (w - e) * B * (q - e)
+- d * t * (k - e) * B * (q - e)
++ d * h * (w - e) * d * (C - e)
+- d * t * (k - e) * d * (C - e)
+- d * h * (w - e) * d * (q - e)
++ d * t * (k - e) * d * (q - e)
+- (y - m) * (C - e) * (q - e) * j * (w - e)
++ (y - m) * (C - e) * (q - e) * v * (k - e)
+- p * n * (C - e) * j * (w - e)
++ B * z * (q - e) * j * (w - e)
++ p * n * (C - e) * v * (k - e)
+- B * z * (q - e) * v * (k - e)
++ (y - m) * (C - e) * (q - e) * d * (w - e)
+- (y - m) * (C - e) * (q - e) * d * (k - e)
++ p * n * (C - e) * d * (w - e)
+- B * z * (q - e) * d * (w - e)
+- p * n * (C - e) * d * (k - e)
++ B * z * (q - e) * d * (k - e)
++ d * n * (C - e) * j * (w - e)
+- d * z * (q - e) * j * (w - e)
+- d * n * (C - e) * v * (k - e)
++ d * z * (q - e) * v * (k - e)
+- d * n * (C - e) * d * (w - e)
++ d * z * (q - e) * d * (w - e)
++ d * n * (C - e) * d * (k - e)
+- d * z * (q - e) * d * (k - e)
+=
+0
+
+
+
+
++ (m - g) * (k - e) * (q - e) * v * (C - e)
+- (m - g) * (k - e) * (q - e) * B * (w - e)
++ h * j * (q - e) * v * (C - e)
+- n * p * (k - e) * v * (C - e)
+- h * j * (q - e) * B * (w - e)
++ n * p * (k - e) * B * (w - e)
++ (m - g) * (k - e) * (q - e) * d * (w - e)
+- (m - g) * (k - e) * (q - e) * d * (C - e)
+- h * d * (q - e) * v * (C - e)
++ n * d * (k - e) * v * (C - e)
++ h * d * (q - e) * B * (w - e)
+- n * d * (k - e) * B * (w - e)
+- h * j * (q - e) * d * (C - e)
++ n * p * (k - e) * d * (C - e)
++ h * j * (q - e) * d * (w - e)
+- n * p * (k - e) * d * (w - e)
++ h * d * (q - e) * d * (C - e)
+- n * d * (k - e) * d * (C - e)
+- h * d * (q - e) * d * (w - e)
++ n * d * (k - e) * d * (w - e)
+
+- (y - s) * (w - e) * (C - e) * j * (q - e)
++ (y - s) * (w - e) * (C - e) * p * (k - e)
+- t * v * (C - e) * j * (q - e)
++ z * B * (w - e) * j * (q - e)
++ t * v * (C - e) * p * (k - e)
+- z * B * (w - e) * p * (k - e)
++ (y - s) * (w - e) * (C - e) * d * (q - e)
+- (y - s) * (w - e) * (C - e) * d * (k - e)
++ t * d * (C - e) * j * (q - e)
+- z * d * (w - e) * j * (q - e)
+- t * d * (C - e) * p * (k - e)
++ z * d * (w - e) * p * (k - e)
++ t * v * (C - e) * d * (q - e)
+- z * B * (w - e) * d * (q - e)
+- t * v * (C - e) * d * (k - e)
++ z * B * (w - e) * d * (k - e)
+- t * d * (C - e) * d * (q - e)
++ z * d * (w - e) * d * (q - e)
++ t * d * (C - e) * d * (k - e)
+- z * d * (w - e) * d * (k - e)
+=
+0
+
+
+
+
++ d * h * (w - e) * d * (C - e)
+- d * t * (k - e) * d * (C - e)
+- d * h * (w - e) * d * (q - e)
++ d * t * (k - e) * d * (q - e)
+- d * n * (C - e) * d * (w - e)
++ d * z * (q - e) * d * (w - e)
++ d * n * (C - e) * d * (k - e)
+- d * z * (q - e) * d * (k - e)
+- h * d * (q - e) * d * (C - e)
++ n * d * (k - e) * d * (C - e)
++ h * d * (q - e) * d * (w - e)
+- n * d * (k - e) * d * (w - e)
++ t * d * (C - e) * d * (q - e)
+- z * d * (w - e) * d * (q - e)
+- t * d * (C - e) * d * (k - e)
++ z * d * (w - e) * d * (k - e)
+
+- (s - g) * (w - e) * (k - e) * d * (C - e)
++ (s - g) * (w - e) * (k - e) * d * (q - e)
+- j * h * (w - e) * d * (C - e)
++ v * t * (k - e) * d * (C - e)
++ j * h * (w - e) * d * (q - e)
+- v * t * (k - e) * d * (q - e)
+- d * h * (w - e) * p * (C - e)
++ d * t * (k - e) * p * (C - e)
++ d * h * (w - e) * B * (q - e)
+- d * t * (k - e) * B * (q - e)
++ (y - m) * (C - e) * (q - e) * d * (w - e)
+- (y - m) * (C - e) * (q - e) * d * (k - e)
++ p * n * (C - e) * d * (w - e)
+- B * z * (q - e) * d * (w - e)
+- p * n * (C - e) * d * (k - e)
++ B * z * (q - e) * d * (k - e)
++ d * n * (C - e) * j * (w - e)
+- d * z * (q - e) * j * (w - e)
+- d * n * (C - e) * v * (k - e)
++ d * z * (q - e) * v * (k - e)
+- (m - g) * (k - e) * (q - e) * d * (w - e)
++ (m - g) * (k - e) * (q - e) * d * (C - e)
++ h * d * (q - e) * v * (C - e)
+- n * d * (k - e) * v * (C - e)
+- h * d * (q - e) * B * (w - e)
++ n * d * (k - e) * B * (w - e)
++ h * j * (q - e) * d * (C - e)
+- n * p * (k - e) * d * (C - e)
+- h * j * (q - e) * d * (w - e)
++ n * p * (k - e) * d * (w - e)
+- (y - s) * (w - e) * (C - e) * d * (q - e)
++ (y - s) * (w - e) * (C - e) * d * (k - e)
+- t * d * (C - e) * j * (q - e)
++ z * d * (w - e) * j * (q - e)
++ t * d * (C - e) * p * (k - e)
+- z * d * (w - e) * p * (k - e)
+- t * v * (C - e) * d * (q - e)
++ z * B * (w - e) * d * (q - e)
++ t * v * (C - e) * d * (k - e)
+- z * B * (w - e) * d * (k - e)
+
++ (s - g) * (w - e) * (k - e) * p * (C - e)
+- (s - g) * (w - e) * (k - e) * B * (q - e)
++ j * h * (w - e) * p * (C - e)
+- v * t * (k - e) * p * (C - e)
+- j * h * (w - e) * B * (q - e)
++ v * t * (k - e) * B * (q - e)
+- (y - m) * (C - e) * (q - e) * j * (w - e)
++ (y - m) * (C - e) * (q - e) * v * (k - e)
+- p * n * (C - e) * j * (w - e)
++ B * z * (q - e) * j * (w - e)
++ p * n * (C - e) * v * (k - e)
+- B * z * (q - e) * v * (k - e)
+- (m - g) * (k - e) * (q - e) * v * (C - e)
++ (m - g) * (k - e) * (q - e) * B * (w - e)
+- h * j * (q - e) * v * (C - e)
++ n * p * (k - e) * v * (C - e)
++ h * j * (q - e) * B * (w - e)
+- n * p * (k - e) * B * (w - e)
++ (y - s) * (w - e) * (C - e) * j * (q - e)
+- (y - s) * (w - e) * (C - e) * p * (k - e)
++ t * v * (C - e) * j * (q - e)
+- z * B * (w - e) * j * (q - e)
+- t * v * (C - e) * p * (k - e)
++ z * B * (w - e) * p * (k - e)
+=
+0
+
+
+
+a7=
++ h * (w - e) * (C - e)
+- t * (k - e) * (C - e)
+- h * (w - e) * (q - e)
++ t * (k - e) * (q - e)
+- n * (C - e) * (w - e)
++ z * (q - e) * (w - e)
++ n * (C - e) * (k - e)
+- z * (q - e) * (k - e)
+
+b7=
+- (s - g) * (w - e) * (k - e) * (C - e)
++ (s - g) * (w - e) * (k - e) * (q - e)
+- j * h * (w - e) * (C - e)
++ v * t * (k - e) * (C - e)
++ j * h * (w - e) * (q - e)
+- v * t * (k - e) * (q - e)
+- h * (w - e) * p * (C - e)
++ t * (k - e) * p * (C - e)
++ h * (w - e) * B * (q - e)
+- t * (k - e) * B * (q - e)
++ (y - m) * (C - e) * (q - e) * (w - e)
+- (y - m) * (C - e) * (q - e) * (k - e)
++ p * n * (C - e) * (w - e)
+- B * z * (q - e) * (w - e)
+- p * n * (C - e) * (k - e)
++ B * z * (q - e) * (k - e)
++ n * (C - e) * j * (w - e)
+- z * (q - e) * j * (w - e)
+- n * (C - e) * v * (k - e)
++ z * (q - e) * v * (k - e)
+
+c7=
++ (s - g) * (w - e) * (k - e) * p * (C - e)
+- (s - g) * (w - e) * (k - e) * B * (q - e)
++ j * h * (w - e) * p * (C - e)
+- v * t * (k - e) * p * (C - e)
+- j * h * (w - e) * B * (q - e)
++ v * t * (k - e) * B * (q - e)
+- (y - m) * (C - e) * (q - e) * j * (w - e)
++ (y - m) * (C - e) * (q - e) * v * (k - e)
+- p * n * (C - e) * j * (w - e)
++ B * z * (q - e) * j * (w - e)
++ p * n * (C - e) * v * (k - e)
+- B * z * (q - e) * v * (k - e)
+
+(-b1 + sqrt(b1^2 - 4 * a1 * c1)) / (2 * a1) = (-b7 + sqrt(b7^2 - 4 * a7 * c7)) / (2 * a7)
+(-b1 + sqrt(b1^2 - 4 * a1 * c1)) * (2 * a7) = (-b7 + sqrt(b7^2 - 4 * a7 * c7)) * (2 * a1)
+-b1 * (2 * a7) + sqrt(b1^2 - 4 * a1 * c1) * (2 * a7) = -b7 * (2 * a1) + sqrt(b7^2 - 4 * a7 * c7) * (2 * a1)
+-b1 * (2 * a7) + sqrt(4 * a7^2 * b1^2 - 16 * a1 * c1 * a7^2)
+
+
+(-b + sqrt(b^2 - 4 * a * c)) / (2 * a) = (-e + sqrt(e^2 - 4 * d * f)) / (2 * d)
+
+(-d * sqrt(b^2 - 4 * a * c) + a * sqrt(e^2 - 4 * d * f) - a * e + b * d) / (a * d) = 0
+
+
+(-a7 * sqrt(b^2 - 4 * a1 * c1) + a1 * sqrt(b7^2 - 4 * a7 * c7) - a1 * b7 + b1 * a7) / (a1 * a7) = 0
+
+
+a = (j - d) * (c - i) / (l - f) + g
+a - g = (j - d) * (c - i) / (l - f)
+(a - g) * (l - f) = (j - d) * (c - i)
+(l - f) = (j - d) * (c - i) / (a - g)
+
+(l - f) * (b - h) / (k - e) + i = (r - f) * (b - n) / (q - e) + o
+(l - f) * (b - h) * (q - e) + i * (k - e) * (q - e) = (r - f) * (b - n) * (k - e) + o * (k - e) * (q - e)
+l * (b - h) * (q - e) - f * (b - h) * (q - e) + i * (k - e) * (q - e) = r * (b - n) * (k - e) - f * (b - n) * (k - e) + o * (k - e) * (q - e)
+f * (b - n) * (k - e) - f * (b - h) * (q - e) = r * (b - n) * (k - e) + (o - i) * (k - e) * (q - e) - l * (b - h) * (q - e)
+f * ((b - n) * (k - e) - (b - h) * (q - e)) = r * (b - n) * (k - e) + (o - i) * (k - e) * (q - e) - l * (b - h) * (q - e)
+f = (r * (b - n) * (k - e) + (o - i) * (k - e) * (q - e) - l * (b - h) * (q - e)) / ((b - n) * (k - e) - (b - h) * (q - e))
