@@ -180,6 +180,4 @@ for e in range(-1000, 1000):
         if len(list(filter(is_whole, direction))) != len(direction) or direction in [[j, k, l], [p, q, r], [v, w, x], [B, C, D]]:
             continue
 
-        print(a, b, c, d, e, f)
-
-        print(round(round(a) + round(b) + round(c)))
+        print(round(a) + round(b) + round(c))
