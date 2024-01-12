@@ -175,9 +175,11 @@ for e in range(-1000, 1000):
         else:
             c = (r - f) * (b - n) / (q - e) + o
 
-        numbers = [a, b, c, d, e, f]
+        direction = [round_if_close(d), round_if_close(e), round_if_close(f)]
 
-        if len(list(filter(is_whole, numbers))) != len(numbers):
+        if len(list(filter(is_whole, direction))) != len(direction) or direction in [[j, k, l], [p, q, r], [v, w, x], [B, C, D]]:
             continue
+
+        print(a, b, c, d, e, f)
 
         print(round(round(a) + round(b) + round(c)))
