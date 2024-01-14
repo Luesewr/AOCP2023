@@ -1,8 +1,6 @@
 import math
 import re
 
-# 131633231355646 371683716481156 238674624073734 268 -197 68
-
 f = open("inputs/day24.txt")
 lines = [re.sub(r' +', ' ', line).split(' @ ') for line in f.read().split('\n')]
 data = [(line[0].split(', '), line[1].split(', ')) for line in lines]
