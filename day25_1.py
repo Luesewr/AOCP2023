@@ -10,6 +10,7 @@ index = 0
 component_indices = {}
 component_names = []
 edges = []
+
 for name, connections in components:
     if name not in component_indices:
         component_indices[name] = index
@@ -56,23 +57,30 @@ class UnionFind:
         for i in range(len(self.parent)):
             self.find(i)
 
-
-def edge_to_names(edge):
-    u, v = edge
-    return component_names[u], component_names[v]
+    def reset(self):
+        size = len(self.parent)
+        self.parent = [i for i in range(size)]
+        self.rank = [0] * size
 
 
 edge_counts = {edge: 0 for edge in edges}
-not_found = True
+checked_counts = set()
+union_find = UnionFind(index)
 
-while not_found:
-    checked_counts = set()
-    union_find = UnionFind(index)
+while True:
     random.shuffle(edges)
 
     for u, v in edges:
         if union_find.union(u, v):
             edge_counts[(u, v)] += 1
+
+    union_find.reset()
+
+    for u, v in edges[::-1]:
+        if union_find.union(u, v):
+            edge_counts[(u, v)] += 1
+
+    union_find.reset()
 
     counts = sorted(edge_counts.items(), key=lambda edge_count_item: edge_count_item[1], reverse=True)[:3]
 
@@ -82,16 +90,17 @@ while not_found:
 
     if counts_tuple not in checked_counts:
         checked_counts.add(counts_tuple)
-        inner_union_find = UnionFind(index)
 
         for u, v in edges:
             if (u, v) in counts_tuple:
                 continue
 
-            inner_union_find.union(u, v)
+            union_find.union(u, v)
 
-        inner_union_find.find_all()
-        if len(set(inner_union_find.parent)) > 1:
-            parent_counts = Counter(inner_union_find.parent)
+        union_find.find_all()
+        if len(set(union_find.parent)) == 2:
+            parent_counts = Counter(union_find.parent)
             print(reduce(mul, parent_counts.values()))
-            not_found = False
+            break
+
+        union_find.reset()
